@@ -3,50 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الأولى</title>
+    <title>الصفحة الرئيسية</title>
     <style>
+        /* تصفير الهوامش لضمان الالتصاق بالسقف تماماً */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #000000;
             overflow-x: hidden;
         }
-        .image-container {
+
+        /* حاوية الميديا الكاملة */
+        .media-container {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            width: 100%;
         }
-        .image-container img {
+
+        /* تنسيق الفيديو والصورة لملء العرض ومنع الفراغات */
+        .media-container video, .media-container img {
             width: 100%;
             height: auto;
             display: block;
+            margin: 0;
+            padding: 0;
         }
-        /* زر اختياري في الأسفل للانتقال للصفحة الثانية */
-        .next-page-btn {
-            display: block;
-            text-align: center;
-            padding: 20px;
-            background: #222;
-            color: #fff;
-            text-decoration: none;
-            font-family: sans-serif;
-            font-weight: bold;
+
+        /* إخفاء الصورة في البداية */
+        #after-video-img {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="image-container">
-        <!-- حط صور الصفحة الأولى هنا تحت بعضها -->
-        <img src="e4e56a87-2e02-42bf-9c00-ad76cf0b724f.JPG" alt="">
-        <img src="IMG_4085.jpg" alt="">
-        <img src="IMG_4085.jpg" alt="">
+    <div class="media-container">
+        <video id="intro-video" autoplay muted playsinline>
+            <source src="ضع_اسم_الفيديو_هنا.mp4" type="video/mp4">
+            تصفحك لا يدعم هذا الفيديو.
+        </video>
+
+        <img id="after-video-img" src="ضع_اسم_الصورة_الثابتة_هنا.jpg" alt="">
     </div>
 
-    <!-- رابط ينقلك للصفحة الثانية تلقائياً عند الضغط عليه في آخر السكرول -->
-    <a href="page2.html" class="next-page-btn">الانتقال إلى الصفحة التالية ←</a>
+    <script>
+        const video = document.getElementById('intro-video');
+        const img = document.getElementById('after-video-img');
+
+        // أول ما الفيديو يخلص تماماً، نفذ الحركة دي:
+        video.onended = function() {
+            video.style.display = 'none'; // إخفاء الفيديو تماماً
+            img.style.display = 'block';  // إظهار الصورة الثابتة مكانة فوراً
+        };
+    </script>
 
 </body>
 </html>
+
 
