@@ -3,41 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خلفية ممتدة</title>
+    <title>خلفية ممتدة متناسقة</title>
     <style>
-        /* تصفير الهوامش لمنع الفراغات البيضاء */
-        body, html {
+        /* إزالة الهوامش والفراغات تماماً من المتصفح ومن أعلى الصفحة */
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #f0f0f0; /* لون خلفية احتياطي */
+            background-color: #f0f0f0;
         }
 
-        /* حاوية الصور */
-        .background-container {
+        /* حاوية تجمع كل الصور تحت بعضها */
+        .image-stream {
             display: flex;
-            flex-direction: column; /* ترتيب الصور تحت بعضها */
+            flex-direction: column;
             width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
-        /* ضبط إعدادات كل صورة لتملأ العرض وتتكرر بشكل عمودي */
-        .bg-image {
+        /* تنسيق الصور لملء العرض ومنع الفراغات بينها */
+        .image-stream img {
             width: 100%;
             height: auto;
-            display: block; /* يمنع وجود أي فراغات صغيرة بين الصور */
+            display: block; /* يضمن عدم ترك فراغ أبيض بين الصورتين */
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
 <body>
 
-    <div class="background-container">
-        <!-- تكرار الصورة 5 مرات تحت بعضها -->
-        <img src="IMG_4085.jpg" alt="" class="bg-image">
-        <img src="IMG_4085.jpg" alt="" class="bg-image">
-        <img src="IMG_4085.jpg" alt="" class="bg-image">
-        <img src="IMG_4085.jpg" alt="" class="bg-image">
-        <img src="IMG_4085.jpg" alt="" class="bg-image">
+    <div class="image-stream">
+        <!-- الصورة الأولى الملاصقة للسقف تماماً -->
+        <img src="E4e56a87-2e02-42bf-9c00-ad76cf0b724f.JPG" alt="الصورة العلوية">
+
+        <!-- الصور المكررة 5 مرات بالأسفل منها لتأثير السكرول -->
+        <img src="IMG_4085.jpg" alt="">
+        <img src="IMG_4085.jpg" alt="">
+        <img src="IMG_4085.jpg" alt="">
+        <img src="IMG_4085.jpg" alt="">
+        <img src="IMG_4085.jpg" alt="">
     </div>
 
 </body>
 </html>
+
