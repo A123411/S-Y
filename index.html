@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الأولى</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #000000;
+            overflow-x: hidden;
+        }
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        /* زر اختياري في الأسفل للانتقال للصفحة الثانية */
+        .next-page-btn {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: #fff;
+            text-decoration: none;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="image-container">
+        <!-- حط صور الصفحة الأولى هنا تحت بعضها -->
+        <img src="ضع_اسم_الصورة_هنا.jpg" alt="">
+        <img src="ضع_اسم_الصورة_هنا.jpg" alt="">
+        <img src="ضع_اسم_الصورة_هنا.jpg" alt="">
+    </div>
+
+    <!-- رابط ينقلك للصفحة الثانية تلقائياً عند الضغط عليه في آخر السكرول -->
+    <a href="page2.html" class="next-page-btn">الانتقال إلى الصفحة التالية ←</a>
+
+</body>
+</html>
 
