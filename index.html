@@ -1,79 +1,318 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>عرض احترافي</title>
+    <title>Saif & Yara Wedding Invitation</title>
     <style>
-        /* تصفير كل الهوامش وإلغاء السكرول والزوم */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-color: #fbf7f2;
+            --primary-dark: #3d2519;
+            --accent-gold: #b29365;
+            --text-main: #543d31;
+        }
+
+        /* قفل الاسكرول في البداية لحين انتهاء الفيديو */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            background-color: #000000;
-            overflow: hidden; /* يمنع السكرول تماماً وقت الفيديو */
-            touch-action: none; /* يمنع حركات الزوم بالصوابع */
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            overflow: hidden; /* بيتغير بالـ JS بعدين */
+            -webkit-font-smoothing: antialiased;
         }
 
-        .media-container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
+        /* ----- STAGE 1: THE ENVELOPE ----- */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: var(--bg-color);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        /* ضبط الفيديو والصورة بالملي على مقاس الشاشة */
-        #intro-video, #after-video-img {
+        .envelope-btn {
+            background: transparent;
+            border: 2px solid var(--accent-gold);
+            padding: 20px 40px;
+            font-family: 'Cinzel', serif;
+            color: var(--primary-dark);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(61, 37, 25, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .envelope-btn:active {
+            transform: scale(0.95);
+            background-color: rgba(178, 147, 101, 0.1);
+        }
+
+        /* ----- STAGE 2: THE VIDEO PLAYER ----- */
+        #video-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: #000000;
+            z-index: 988;
+            display: none; /* بيظهر بالـ JS */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #wedding-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* يخلي الميديا تفرش بالملي بدون فراغات سوداء */
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 0;
-            padding: 0;
-            border: none;
+            object-fit: cover; /* يملأ الشاشة بالملي مثل تيك توك و ريلز */
         }
 
-        /* إخفاء الصورة في البداية */
-        #after-video-img {
-            display: none;
+        /* ----- STAGE 3: MAIN CONTENT (SCROLLABLE) ----- */
+        #main-content {
+            opacity: 0;
+            transition: opacity 1s ease;
+            max-width: 412px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        /* هيرو الصورة اللي بتظهر أول حاجة */
+        .hero-image-wrapper {
+            width: 100%;
+            height: 100vh; /* تاخد الشاشة كاملة أول ما تظهر */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* محتوى الانسياب والاسكرول تحت الصورة */
+        .scroll-sections {
+            padding: 60px 24px 120px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--bg-color);
+        }
+
+        .section {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .serif-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+        }
+
+        .serif-title {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            letter-spacing: 2px;
+            margin: 0 0 20px 0;
+        }
+
+        /* العداد التنازلي الفخم */
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(178, 147, 101, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            min-width: 65px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .countdown-number {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .countdown-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .body-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-main);
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .action-button {
+            display: inline-block;
+            background: var(--primary-dark);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 36px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(61, 37, 25, 0.15);
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="media-container">
-        <video id="intro-video" autoplay muted playsinline loop="false">
-            <source src="Video mmm.MOV" type="video/mp4">
-        </video>
+    <!-- 1. الظرف (البداية) -->
+    <div id="intro-overlay">
+        <button class="envelope-btn" onclick="openEnvelope()">✉️ Open Invitation</button>
+    </div>
 
-        <img id="after-video-img" src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" alt="">
+    <!-- 2. مشغل الفيديو السينمائي -->
+    <div id="video-container">
+        <!-- حط مسار الفيديو بتاعك هنا في الـ src -->
+        <video id="wedding-video" playsinline>
+            <source src="مسار_الفيديو_هنا.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 3. المحتوى الرئيسي (مخفي وهيفتح سكرول بعد الفيديو) -->
+    <div id="main-content">
+        
+        <!-- أول حاجة: الصورة الكبيرة كاملة الشاشة -->
+        <div class="hero-image-wrapper">
+            <!-- حط مسار الصورة الكبيرة هنا في الـ src -->
+            <img src="مسار_الصورة_الكبيرة_هنا.jpg" class="hero-image" alt="Saif and Yara">
+        </div>
+
+        <!-- باقي الكارت بيظهر بالاسكرول تحت الصورة -->
+        <div class="scroll-sections">
+
+            <!-- أ) العداد التنازلي -->
+            <div class="section">
+                <div class="serif-subtitle">Counting Down To Forever</div>
+                <div class="countdown-grid">
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="hours">00</div>
+                        <div class="countdown-label">Hrs</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="minutes">00</div>
+                        <div class="countdown-label">Min</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="seconds">00</div>
+                        <div class="countdown-label">Sec</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ب) التاريخ والوقت -->
+            <div class="section">
+                <div class="serif-subtitle">The Date</div>
+                <h1 class="serif-title">Friday, July 10, 2026</h1>
+                <p class="body-text">Celebration starts at 5:00 PM</p>
+            </div>
+
+            <!-- ج) الموقع وجوجل ماب -->
+            <div class="section" style="margin-bottom: 0;">
+                <div class="serif-subtitle">The Venue</div>
+                <h1 class="serif-title">White Garden</h1>
+                <p class="body-text" style="margin-bottom: 25px;">An open-air wedding venue tucked among olive trees, just outside Cairo, Egypt.</p>
+                <!-- زر الخريطة -->
+                <a href="رابط_جوجل_ماب_هنا" class="action-button">📍 Open in Maps</a>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        const video = document.getElementById('intro-video');
-        const img = document.getElementById('after-video-img');
+        const videoContainer = document.getElementById('video-container');
+        const weddingVideo = document.getElementById('wedding-video');
+        const introOverlay = document.getElementById('intro-overlay');
+        const mainContent = document.getElementById('main-content');
 
-        // محاولة تشغيل الفيديو إجبارياً حتى لو المتصفح حاول يمنعه
-        window.addEventListener('DOMContentLoaded', () => {
-            video.play().catch(error => {
-                // لو المتصفح لسه غلس، أول ما يلمس الشاشة في أي حتة يشتغل فوراً
-                document.addEventListener('click', () => { video.play(); }, { once: true });
-                document.addEventListener('touchstart', () => { video.play(); }, { once: true });
-            });
-        });
+        // 1. عند الضغط على الظرف
+        function openEnvelope() {
+            introOverlay.style.opacity = '0';
+            setTimeout(() => {
+                introOverlay.style.display = 'none';
+                videoContainer.style.display = 'flex';
+                weddingVideo.play(); // تشغيل الفيديو تلقائياً بعد فتح الظرف
+            }, 800);
+        }
 
-        // أول ما الفيديو يخلص: يخفيه ويظهر الصورة، ويفتح السكرول لو الصورة طويلة
-        video.onended = function() {
-            video.style.display = 'none';
-            img.style.display = 'block';
-            
-            // السماح بالسكرول بعد ما الفيديو يخلص عشان تشوف الصورة براحتك
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
+        // 2. عند انتهاء الفيديو تماماً
+        weddingVideo.onended = function() {
+            videoContainer.style.opacity = '0';
+            setTimeout(() => {
+                videoContainer.style.display = 'none';
+                
+                // إظهار المحتوى الرئيسي
+                mainContent.style.opacity = '1';
+                
+                // فتح الاسكرول في الصفحة بالملي
+                document.documentElement.style.overflow = 'auto';
+                document.body.style.overflow = 'auto';
+            }, 500);
         };
-    </script>
 
+        // 3. كود العداد التنازلي الاحترافي لـ 10 يوليو 2026
+        const targetDate = new Date("July 10, 2026 17:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (difference < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector(".countdown-grid").innerHTML = "<div class='serif-subtitle'>The Big Day is Here!</div>";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
