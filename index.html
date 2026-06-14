@@ -2,33 +2,37 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الرئيسية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عرض احترافي</title>
     <style>
-        /* تصفير الهوامش لضمان الالتصاق بالسقف تماماً */
+        /* تصفير كل الهوامش وإلغاء السكرول والزوم */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             background-color: #000000;
-            overflow-x: hidden;
+            overflow: hidden; /* يمنع السكرول تماماً وقت الفيديو */
+            touch-action: none; /* يمنع حركات الزوم بالصوابع */
         }
 
-        /* حاوية الميديا الكاملة */
         .media-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
         }
 
-        /* تنسيق الفيديو والصورة لملء العرض ومنع الفراغات */
-        .media-container video, .media-container img {
+        /* ضبط الفيديو والصورة بالملي على مقاس الشاشة */
+        #intro-video, #after-video-img {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover; /* يخلي الميديا تفرش بالملي بدون فراغات سوداء */
+            position: absolute;
+            top: 0;
+            left: 0;
             margin: 0;
             padding: 0;
+            border: none;
         }
 
         /* إخفاء الصورة في البداية */
@@ -40,26 +44,36 @@
 <body>
 
     <div class="media-container">
-        <video id="intro-video" autoplay muted playsinline>
-            <source src="Video mmm.MOV" type="video/mp4">
-            تصفحك لا يدعم هذا الفيديو.
+        <video id="intro-video" autoplay muted playsinline loop="false">
+            <source src="ضع_اسم_الفيديو_هنا.mp4" type="video/mp4">
         </video>
 
-        <img id="after-video-img" src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" alt="">
+        <img id="after-video-img" src="ضع_اسم_الصورة_الثابتة_هنا.jpg" alt="">
     </div>
 
     <script>
         const video = document.getElementById('intro-video');
         const img = document.getElementById('after-video-img');
 
-        // أول ما الفيديو يخلص تماماً، نفذ الحركة دي:
+        // محاولة تشغيل الفيديو إجبارياً حتى لو المتصفح حاول يمنعه
+        window.addEventListener('DOMContentLoaded', () => {
+            video.play().catch(error => {
+                // لو المتصفح لسه غلس، أول ما يلمس الشاشة في أي حتة يشتغل فوراً
+                document.addEventListener('click', () => { video.play(); }, { once: true });
+                document.addEventListener('touchstart', () => { video.play(); }, { once: true });
+            });
+        });
+
+        // أول ما الفيديو يخلص: يخفيه ويظهر الصورة، ويفتح السكرول لو الصورة طويلة
         video.onended = function() {
-            video.style.display = 'none'; // إخفاء الفيديو تماماً
-            img.style.display = 'block';  // إظهار الصورة الثابتة مكانة فوراً
+            video.style.display = 'none';
+            img.style.display = 'block';
+            
+            // السماح بالسكرول بعد ما الفيديو يخلص عشان تشوف الصورة براحتك
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
         };
     </script>
 
 </body>
 </html>
-
-
