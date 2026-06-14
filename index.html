@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خلفية ممتدة متناسقة</title>
+    <title>خلفية ممتدة</title>
     <style>
-        /* إزالة الهوامش والفراغات تماماً من المتصفح ومن أعلى الصفحة */
+        /* تصفير كل الهوامش لضمان الالتصاق التام بالسقف وبدون أي فراغات جانبية */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #f0f0f0;
+            background-color: #000000; /* لون خلفية احتياطي أسود يناسب الأطراف */
+            overflow-x: hidden; /* منع السكرول العرضي المزعج */
         }
 
-        /* حاوية تجمع كل الصور تحت بعضها */
-        .image-stream {
+        /* حاوية الصور لترتيبها عمودياً */
+        .image-container {
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -22,11 +23,11 @@
             padding: 0;
         }
 
-        /* تنسيق الصور لملء العرض ومنع الفراغات بينها */
-        .image-stream img {
+        /* تنسيق الصور لملء الشاشة بالكامل ومنع الفراغات البيضاء بينها */
+        .image-container img {
             width: 100%;
             height: auto;
-            display: block; /* يضمن عدم ترك فراغ أبيض بين الصورتين */
+            display: block; /* يلغي أي فراغات هوائية بين الصور */
             margin: 0;
             padding: 0;
         }
@@ -34,16 +35,14 @@
 </head>
 <body>
 
-    <div class="image-stream">
-        <!-- الصورة الأولى الملاصقة للسقف تماماً -->
+    <div class="image-container">
         <img src="E4e56a87-2e02-42bf-9c00-ad76cf0b724f.JPG" alt="الصورة العلوية">
 
-        <!-- الصور المكررة 5 مرات بالأسفل منها لتأثير السكرول -->
-        <img src="IMG_4085.jpg" alt="">
-        <img src="IMG_4085.jpg" alt="">
-        <img src="IMG_4085.jpg" alt="">
-        <img src="IMG_4085.jpg" alt="">
-        <img src="IMG_4085.jpg" alt="">
+        <img src="image.png" alt="">
+        <img src="image.png" alt="">
+        <img src="image.png" alt="">
+        <img src="image.png" alt="">
+        <img src="image.png" alt="">
     </div>
 
 </body>
