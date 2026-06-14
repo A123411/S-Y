@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة بخلفية ممتدة لـ GitHub</title>
+    <style>
+        body {
+            /* تعيين الصورة كخلفية للموقع */
+            background-image: url('image.png');
+            
+            /* جعل الصورة تتكرر رأسياً فقط (تحت بعضها) */
+            background-repeat: repeat-y;
+            
+            /* ضبط مكان بداية الصورة من المنتصف والأعلى */
+            background-position: top center;
+            
+            /* حجم الصورة: يمكنك تعديلها حسب رغبتك (مثلاً auto أو cover أو تحديد عرض معين مثل 100%) */
+            background-size: contain; 
+            
+            /* إعدادات خطوط وهوامش عادية */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* حاوية لإجبار الصفحة على عمل سكرول طويل */
+        .scroll-container {
+            height: 3000px; /* هذا الارتفاع الكبير يضمن ظهور السكرول لرؤية تكرار الصورة */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-container">
+        <div class="content-box">
+            <h1>مرحباً بك في صفحة GitHub</h1>
+            <p>انزل لأسفل (Scroll) لرؤية تكرار الخلفية تحت بعضها بشكل متناسق.</p>
+        </div>
+
+        <!-- يمكنك إضافة محتوى إضافي هنا لملء الصفحة -->
+        <div class="content-box" style="margin-top: 800px;">
+            <h3>محتوى بمنتصف الصفحة</h3>
+            <p>لاحظ كيف تستمر الصورة بالتكرار بالخلفية...</p>
+        </div>
+
+        <div class="content-box" style="margin-top: 800px;">
+            <h3>نهاية الصفحة</h3>
+            <p>وصلت إلى النهاية والخلفية تكررت بنجاح!</p>
+        </div>
+    </div>
+
+</body>
+</html>
