@@ -21,14 +21,13 @@
             padding: 0;
             width: 100%;
             max-width: 100vw;
-            height: 100%;
-            min-height: -webkit-fill-available; /* حل مشكلة ترحيل الأبعاد في كروم وسفاري الموبايل */
+            min-height: 100vh;
             background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
             color: var(--primary-dark);
             overflow-x: hidden;
             overflow-y: hidden;
-            touch-action: none; 
+            touch-action: pan-y;
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
         }
@@ -76,20 +75,18 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* حاوية الفيديو مأمنة ومثبتة تماماً لمطابقة الفريمات */
+        /* حاوية الفيديو مجهزة بتأثير الشفافية الناعمة للتنقل السينمائي */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
             width: 100vw; height: 100vh;
-            height: -webkit-fill-available;
             background: #000000;
             z-index: 988;
             display: none;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            pointer-events: none; 
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* تلاشي سينمائي طويل لمنع الفصلة */
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* نعومة الاختفاء والتداخل مع الصورة */
             opacity: 1;
         }
 
@@ -97,7 +94,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
         }
 
         #main-content {
@@ -112,7 +108,6 @@
         .hero-image-wrapper {
             width: 100vw;
             height: 100vh;
-            height: -webkit-fill-available;
             position: relative;
             overflow: hidden;
             background: #000000;
@@ -122,54 +117,64 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
             display: block;
         }
 
-        /* 1. مؤشر الإسكرول التوجيهي اللامع في الشاشة الأولى (واضح جداً) */
-        .first-load-scroll {
+        /* مؤشر الاسكرول الفخم بالحروف المخصصة والكلام الإنجليزي */
+        .scroll-indicator-wrapper {
             position: absolute;
-            bottom: 50px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             pointer-events: none;
-            z-index: 15;
+            z-index: 10;
             text-align: center;
             width: 100%;
         }
 
-        .first-load-scroll span {
+        .scroll-initials {
             font-family: 'Cinzel', serif;
-            font-size: 11px;
+            font-size: 16px;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            margin-bottom: 2px;
         }
 
-        .giant-bounce-arrow {
-            font-size: 28px;
+        .scroll-text {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: 600;
             color: #ffffff;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.9);
-            animation: extraBounce 1.5s infinite ease-in-out;
-            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            opacity: 0.9;
         }
 
-        @keyframes extraBounce {
-            0%, 100% { transform: translateY(0); opacity: 0.6; filter: drop-shadow(0 0 2px rgba(255,255,255,0.3)); }
-            50% { transform: translateY(12px); opacity: 1; filter: drop-shadow(0 0 10px var(--accent-gold)); }
+        .scroll-arrow {
+            font-size: 20px;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            animation: bounceArrow 1.8s infinite ease-in-out;
+            margin-top: 2px;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(6px); opacity: 1; }
         }
 
         .scroll-sections {
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
-            padding: 60px 20px 50px 20px;
+            padding: 60px 20px 120px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -203,37 +208,6 @@
             color: var(--primary-dark);
             letter-spacing: 1.5px;
             margin: 0 0 15px 0;
-        }
-
-        /* 2. تنسيق الخاتم والحروف الفخمة تحت خالص في نهاية الدعوة */
-        .bottom-initials-wrapper {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            pointer-events: none;
-            text-align: center;
-            width: 100%;
-        }
-
-        .bottom-initials {
-            font-family: 'Cinzel', serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            letter-spacing: 6px;
-            margin-bottom: 4px;
-        }
-
-        .bottom-text {
-            font-family: 'Cinzel', serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-main);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0.8;
         }
 
         .countdown-grid {
@@ -393,10 +367,10 @@
         <div class="hero-image-wrapper">
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
             
-            <!-- المؤشر الإرشادي المتحرك والواضح جداً في الشاشة الأولى -->
-            <div class="first-load-scroll">
-                <span>Scroll Down</span>
-                <span class="giant-bounce-arrow">↓</span>
+            <div class="scroll-indicator-wrapper">
+                <div class="scroll-initials">S 💍 Y</div>
+                <span class="scroll-text">Please Scroll Down to Reveal</span>
+                <span class="scroll-arrow">↓</span>
             </div>
         </div>
 
@@ -446,13 +420,6 @@
                 <button class="action-button" onclick="openRSVPForm()">Fill the Form</button>
             </div>
 
-            <!-- الحروف والخاتم نزلوا تحت خالص في آخر الدعوة بعد الـ RSVP بالملي -->
-            <div class="bottom-initials-wrapper reveal-element">
-                <div class="luxury-divider" style="margin-bottom: 10px;"></div>
-                <div class="bottom-initials">S 💍 Y</div>
-                <span class="bottom-text">Thank you for sharing our special day</span>
-            </div>
-
         </div>
     </div>
 
@@ -493,23 +460,25 @@
                 introOverlay.style.display = 'none';
                 videoContainer.style.display = 'flex';
                 
-                bgMusic.play().catch(error => console.log("Audio play blocked:", error));
+                bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
                 weddingVideo.play();
             }, 400);
         }
 
         weddingVideo.onended = function() {
+            // 1. إظهار الصورة الثابتة في الخلفية أولاً عشان تكون جاهزة ورا الفيديو
             mainContent.style.display = 'block';
+            
+            // 2. عمل تأثير الشفافية الناعم على حاوية الفيديو لتختفي تدريجياً بدلاً من الاختفاء المفاجئ
             videoContainer.style.opacity = '0';
             
+            // 3. مسح عنصر الفيديو تماماً بعد انتهاء تأثير الشفافية (بعد 800 مللي ثانية) لفتح الاسكرول
             setTimeout(() => {
                 videoContainer.style.display = 'none';
-                document.documentElement.style.touchAction = 'pan-y';
-                document.body.style.touchAction = 'pan-y';
                 document.documentElement.style.overflowY = 'auto';
                 document.body.style.overflowY = 'auto';
                 handleReveal();
-            }, 1200); 
+            }, 800);
         };
 
         window.addEventListener('scroll', handleReveal);
