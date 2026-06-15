@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- قفل الزوم والـ Viewport بأعلى حماية لمنع الاهتزاز والتمدد -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
@@ -17,7 +16,6 @@
             --glass-border: rgba(178, 147, 101, 0.15);
         }
 
-        /* منع السكرول الأفقي تماماً وتثبيت اللمس فوق وتحت بس */
         html, body {
             margin: 0;
             padding: 0;
@@ -27,14 +25,13 @@
             background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
             color: var(--primary-dark);
-            overflow-x: hidden; /* منع الحركة يمين وشمال نهائياً */
+            overflow-x: hidden;
             overflow-y: hidden; /* مقفول في البداية للمقدمة */
-            touch-action: pan-y; /* السماح بالحركة الرأسية فقط */
+            touch-action: pan-y;
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
         }
 
-        /* أنميشن السكرول المريح */
         .reveal-element {
             opacity: 0;
             transform: translateY(25px);
@@ -95,7 +92,7 @@
         #wedding-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* يملأ الشاشة كاملة فل بدون أي حواف سوداء */
+            object-fit: cover;
         }
 
         /* ----- STAGE 3: MAIN CONTENT ----- */
@@ -108,7 +105,6 @@
             overflow-x: hidden;
         }
 
-        /* الصورة الكبيرة تاخد الشاشة بالملي */
         .hero-image-wrapper {
             width: 100vw;
             height: 100vh;
@@ -139,12 +135,11 @@
             60% { transform: translateX(-50%) translateY(-4px); }
         }
 
-        /* حاوية الأقسام المظبوطة لحواف الشاشة */
         .scroll-sections {
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
-            padding: 60px 20px 120px 20px; /* بادينج متزن عشان مفيش حاجة تخرج برة */
+            padding: 60px 20px 120px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -180,14 +175,13 @@
             margin: 0 0 15px 0;
         }
 
-        /* ----- تظبيط العداد التنازلي الفخم عشان يناسب الموبايل بالملي ----- */
         .countdown-grid {
             display: flex;
             justify-content: center;
-            gap: 8px; /* مسافة مرنة تمنع الخروج برة الشاشة */
+            gap: 8px;
             margin: 25px auto 0 auto;
             width: 100%;
-            max-width: 340px; /* تحجيم الحاوية */
+            max-width: 340px;
             box-sizing: border-box;
         }
 
@@ -196,8 +190,8 @@
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 10px 0;
-            flex: 1; /* يوزع الصناديق بالتساوي بالملي جوة الشاشة */
-            min-width: 0; /* يمنع الصندوق من التمدد العشوائي */
+            flex: 1;
+            min-width: 0;
             box-shadow: 0 8px 25px rgba(61, 37, 25, 0.02);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
@@ -205,7 +199,7 @@
 
         .countdown-number {
             font-family: 'Cinzel', serif;
-            font-size: 18px; /* حجم خط متناسق ومريح جداً على الشاشات الصغيرة */
+            font-size: 18px;
             font-weight: 700;
             color: var(--primary-dark);
         }
@@ -219,7 +213,6 @@
             font-weight: 500;
         }
 
-        /* ----- تصميم التقويم المتناسق ----- */
         .calendar-container {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -267,7 +260,6 @@
             color: var(--text-main);
         }
 
-        /* تحديد يوم 5 أغسطس */
         .calendar-day.selected-wedding-day {
             background-color: var(--primary-dark);
             color: #ffffff;
@@ -319,30 +311,31 @@
 </head>
 <body>
 
-    <!-- 1. الظرف (البداية) -->
+    <!-- 1. الظرف -->
     <div id="intro-overlay">
         <button class="envelope-btn" onclick="openEnvelope()">✉️ Open Invitation</button>
     </div>
 
-    <!-- 2. مشغل الفيديو (ملء الشاشة كامل فل) -->
+    <!-- 2. مشغل الفيديو المحدث -->
     <div id="video-container">
         <video id="wedding-video" playsinline preload="auto">
-            <source src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" type="video/mp4">
+            <source src="AA 2.mov" type="video/quicktime">
+            <source src="AA 2.mov" type="video/mp4">
         </video>
     </div>
 
-    <!-- 3. المحتوى الرئيسي (سكرول رأسي ثابت ونظيف) -->
+    <!-- 3. المحتوى الرئيسي -->
     <div id="main-content">
         
-        <!-- الصورة الكبيرة كاملة الشاشة -->
+        <!-- الصورة المحدثة كاملة الشاشة -->
         <div class="hero-image-wrapper">
-            <img src="AA 2.mov" class="hero-image" alt="Saif & Yara">
+            <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
             <div class="scroll-indicator">↓</div>
         </div>
 
         <div class="scroll-sections">
 
-            <!-- أ) قسم العداد التنازلي المتناسق والمحمي من الخروج برة الشاشة -->
+            <!-- أ) العداد التنازلي -->
             <div class="section reveal-element">
                 <div class="serif-subtitle">The Countdown</div>
                 <h2 class="serif-title" style="font-size: 18px;">Counting to our forever</h2>
@@ -354,7 +347,7 @@
                 </div>
             </div>
 
-            <!-- ب) قسم التقويم المحدد ليوم 5-8 -->
+            <!-- ب) التقويم المحدث 5-8 -->
             <div class="section reveal-element">
                 <div class="serif-subtitle">Save Our Date</div>
                 <h2 class="serif-title">August 2026</h2>
@@ -366,7 +359,6 @@
                         
                         <div class="calendar-day" style="grid-column-start: 7;">1</div>
                         <div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div>
-                        <!-- يوم الفرح 5 أغسطس -->
                         <div class="calendar-day selected-wedding-day">5</div>
                         <div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
                     </div>
@@ -375,7 +367,7 @@
                 <p class="body-text" style="font-weight: 500;">Wednesday, August 5, 2026</p>
             </div>
 
-            <!-- ج) قسم الموقع وجوجل ماب -->
+            <!-- ج) الموقع الجغرافي -->
             <div class="section reveal-element" style="margin-bottom: 0;">
                 <div class="serif-subtitle">The Venue</div>
                 <h1 class="serif-title">White Garden</h1>
@@ -401,19 +393,16 @@
             }, 400);
         }
 
-        // الانتقال اللحظي الفوري بدون رشة لاج
         weddingVideo.onended = function() {
             mainContent.style.display = 'block';
             videoContainer.style.display = 'none';
             
-            // فتح السكرول الرأسي فقط ومنع الأفقي تماماً بالملي
             document.documentElement.style.overflowY = 'auto';
             document.body.style.overflowY = 'auto';
             
             handleReveal();
         };
 
-        // ميكانيكية الـ Scroll Reveal لأنميشن العناصر
         window.addEventListener('scroll', handleReveal);
 
         function handleReveal() {
