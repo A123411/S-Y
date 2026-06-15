@@ -75,7 +75,7 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* تظبيط أبعاد حاوية الفيديو لتطابق حاوية الصورة بالملي */
+        /* حاوية الفيديو مجهزة بتأثير الشفافية الناعمة للتنقل السينمائي */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -86,6 +86,8 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* نعومة الاختفاء والتداخل مع الصورة */
+            opacity: 1;
         }
 
         #wedding-video {
@@ -118,7 +120,7 @@
             display: block;
         }
 
-        /* مؤشر الاسكرول السحري الجديد في منتصف أسفل الشاشة */
+        /* مؤشر الاسكرول الفخم بالحروف المخصصة والكلام الإنجليزي */
         .scroll-indicator-wrapper {
             position: absolute;
             bottom: 40px;
@@ -127,31 +129,44 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             pointer-events: none;
             z-index: 10;
+            text-align: center;
+            width: 100%;
+        }
+
+        .scroll-initials {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            margin-bottom: 2px;
         }
 
         .scroll-text {
             font-family: 'Cinzel', serif;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-            opacity: 0.85;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            opacity: 0.9;
         }
 
         .scroll-arrow {
-            font-size: 22px;
+            font-size: 20px;
             color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
             animation: bounceArrow 1.8s infinite ease-in-out;
+            margin-top: 2px;
         }
 
         @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0); opacity: 0.6; }
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
             50% { transform: translateY(6px); opacity: 1; }
         }
 
@@ -353,7 +368,8 @@
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
             
             <div class="scroll-indicator-wrapper">
-                <span class="scroll-text">Scroll Down</span>
+                <div class="scroll-initials">S 💍 Y</div>
+                <span class="scroll-text">Please Scroll Down to Reveal</span>
                 <span class="scroll-arrow">↓</span>
             </div>
         </div>
@@ -450,15 +466,19 @@
         }
 
         weddingVideo.onended = function() {
-            // إظهار المحتوى أولاً بنفس أبعاد الفيديو بالملي لمنع أي رمشة
+            // 1. إظهار الصورة الثابتة في الخلفية أولاً عشان تكون جاهزة ورا الفيديو
             mainContent.style.display = 'block';
-            videoContainer.style.display = 'none';
             
-            // فتح الاسكرول بسلاسة تامة بعد التبديل
-            document.documentElement.style.overflowY = 'auto';
-            document.body.style.overflowY = 'auto';
+            // 2. عمل تأثير الشفافية الناعم على حاوية الفيديو لتختفي تدريجياً بدلاً من الاختفاء المفاجئ
+            videoContainer.style.opacity = '0';
             
-            handleReveal();
+            // 3. مسح عنصر الفيديو تماماً بعد انتهاء تأثير الشفافية (بعد 800 مللي ثانية) لفتح الاسكرول
+            setTimeout(() => {
+                videoContainer.style.display = 'none';
+                document.documentElement.style.overflowY = 'auto';
+                document.body.style.overflowY = 'auto';
+                handleReveal();
+            }, 800);
         };
 
         window.addEventListener('scroll', handleReveal);
