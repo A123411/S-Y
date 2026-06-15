@@ -310,12 +310,16 @@
 </head>
 <body>
 
+    <audio id="bg-music" loop>
+        <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="intro-overlay">
         <button class="envelope-btn" onclick="openEnvelope()">✉️ Open Invitation</button>
     </div>
 
     <div id="video-container">
-        <video id="wedding-video" playsinline preload="auto">
+        <video id="wedding-video" playsinline preload="auto" muted>
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
@@ -405,12 +409,16 @@
         const weddingVideo = document.getElementById('wedding-video');
         const introOverlay = document.getElementById('intro-overlay');
         const mainContent = document.getElementById('main-content');
+        const bgMusic = document.getElementById('bg-music');
 
         function openEnvelope() {
             introOverlay.style.opacity = '0';
             setTimeout(() => {
                 introOverlay.style.display = 'none';
                 videoContainer.style.display = 'flex';
+                
+                // تشغيل الصوت والفيديو معاً فور الضغط على الظرف
+                bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
                 weddingVideo.play();
             }, 400);
         }
@@ -477,7 +485,6 @@
         const form = document.getElementById('g-sheet-form');
         const formStatus = document.getElementById('form-status');
 
-        // رابط الـ Web App المحدث والراكب بالملي:
         const googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
 
         form.addEventListener('submit', function(e) {
@@ -492,7 +499,6 @@
 
             const finalUrl = `${googleAppScriptUrl}?name=${encodeURIComponent(name)}&totalGuests=${encodeURIComponent(totalGuests)}`;
 
-            // التعديل السحري لتخطي حظر الـ CORS تماماً
             fetch(finalUrl, { 
                 method: 'GET',
                 mode: 'no-cors',
@@ -501,7 +507,6 @@
                 }
             })
             .then(() => {
-                // بما إننا استخدمنا no-cors، السكريبت هينفذ ويشتغل بس مش هيرجع رد، فبنعرف إنه تم بنجاح فوراً
                 formStatus.innerText = 'Attendance confirmed! Thank you ✨';
                 formStatus.style.color = '#3d2519';
                 form.reset(); 
