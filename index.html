@@ -21,13 +21,14 @@
             padding: 0;
             width: 100%;
             max-width: 100vw;
-            min-height: 100vh;
+            height: 100%;
+            min-height: -webkit-fill-available; /* حل مشكلة ترحيل الأبعاد في كروم وسفاري الموبايل */
             background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
             color: var(--primary-dark);
             overflow-x: hidden;
             overflow-y: hidden;
-            touch-action: none; /* قفل أي سحب عشوائي في البداية */
+            touch-action: none; 
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
         }
@@ -75,19 +76,20 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* حاوية الفيديو مثبتة وممنوع لمسها نهائياً لمنع أي ترحيل بالفريمات */
+        /* حاوية الفيديو مأمنة ومثبتة تماماً لمطابقة الفريمات */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
             width: 100vw; height: 100vh;
+            height: -webkit-fill-available;
             background: #000000;
             z-index: 988;
             display: none;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            pointer-events: none; /* تمنع أي لمس أو حركة أثناء تشغيل الفيديو */
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1); /* أنيميشن سموذ جداً للتلاشي */
+            pointer-events: none; 
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* تلاشي سينمائي طويل لمنع الفصلة */
             opacity: 1;
         }
 
@@ -95,6 +97,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
         }
 
         #main-content {
@@ -109,6 +112,7 @@
         .hero-image-wrapper {
             width: 100vw;
             height: 100vh;
+            height: -webkit-fill-available;
             position: relative;
             overflow: hidden;
             background: #000000;
@@ -118,14 +122,54 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             display: block;
+        }
+
+        /* 1. مؤشر الإسكرول التوجيهي اللامع في الشاشة الأولى (واضح جداً) */
+        .first-load-scroll {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            z-index: 15;
+            text-align: center;
+            width: 100%;
+        }
+
+        .first-load-scroll span {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.5);
+        }
+
+        .giant-bounce-arrow {
+            font-size: 28px;
+            color: #ffffff;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.9);
+            animation: extraBounce 1.5s infinite ease-in-out;
+            font-weight: bold;
+        }
+
+        @keyframes extraBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.6; filter: drop-shadow(0 0 2px rgba(255,255,255,0.3)); }
+            50% { transform: translateY(12px); opacity: 1; filter: drop-shadow(0 0 10px var(--accent-gold)); }
         }
 
         .scroll-sections {
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
-            padding: 60px 20px 40px 20px;
+            padding: 60px 20px 50px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -161,28 +205,28 @@
             margin: 0 0 15px 0;
         }
 
-        /* تنسيق المؤشر تحت خالص في آخر الدعوة */
-        .scroll-indicator-wrapper {
-            margin-top: 40px;
+        /* 2. تنسيق الخاتم والحروف الفخمة تحت خالص في نهاية الدعوة */
+        .bottom-initials-wrapper {
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             pointer-events: none;
             text-align: center;
             width: 100%;
         }
 
-        .scroll-initials {
+        .bottom-initials {
             font-family: 'Cinzel', serif;
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary-dark);
-            letter-spacing: 4px;
-            margin-bottom: 2px;
+            letter-spacing: 6px;
+            margin-bottom: 4px;
         }
 
-        .scroll-text {
+        .bottom-text {
             font-family: 'Cinzel', serif;
             font-size: 10px;
             font-weight: 600;
@@ -190,18 +234,6 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             opacity: 0.8;
-        }
-
-        .scroll-arrow {
-            font-size: 20px;
-            color: var(--accent-gold);
-            animation: bounceArrow 1.8s infinite ease-in-out;
-            margin-top: 2px;
-        }
-
-        @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0); opacity: 0.5; }
-            50% { transform: translateY(6px); opacity: 1; }
         }
 
         .countdown-grid {
@@ -360,6 +392,12 @@
     <div id="main-content">
         <div class="hero-image-wrapper">
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
+            
+            <!-- المؤشر الإرشادي المتحرك والواضح جداً في الشاشة الأولى -->
+            <div class="first-load-scroll">
+                <span>Scroll Down</span>
+                <span class="giant-bounce-arrow">↓</span>
+            </div>
         </div>
 
         <div class="scroll-sections">
@@ -408,11 +446,11 @@
                 <button class="action-button" onclick="openRSVPForm()">Fill the Form</button>
             </div>
 
-            <!-- الكلام الإنجليزي والمؤشر المخصص تحت خالص في آخر الدعوة كلها -->
-            <div class="scroll-indicator-wrapper reveal-element">
-                <div class="scroll-initials">S 💍 Y</div>
-                <span class="scroll-text">Thank you for sharing our special day</span>
-                <span class="scroll-arrow">↓</span>
+            <!-- الخاتم والحروف والكلام الإنجليزي الفخم نزلوا تحت خالص في آخر الدعوة -->
+            <div class="bottom-initials-wrapper reveal-element">
+                <div class="luxury-divider" style="margin-bottom: 10px;"></div>
+                <div class="bottom-initials">S 💍 Y</div>
+                <span class="bottom-text">Thank you for sharing our special day</span>
             </div>
 
         </div>
@@ -461,13 +499,13 @@
         }
 
         weddingVideo.onended = function() {
-            // 1. إظهار كود الصفحة والصورة فوراً في الخلفية
+            // 1. إظهار المحتوى خلف الفيديو فوراً ليكون جاهزاً للمطابقة
             mainContent.style.display = 'block';
             
-            // 2. تفعيل التلاشي السيمتركي (تداخل كامل للفريم الأخير مع الصورة)
+            // 2. تفعيل التلاشي السلس الطويل جداً لتداخل الفريمات بالملي
             videoContainer.style.opacity = '0';
             
-            // 3. فتح الإسكرول ولمس الشاشة بعد دقيقة كاملة من انتهاء الأنيميشن تماماً
+            // 3. تفعيل السحب والتفاعل اللمسي بعد انتهاء التلاشي تماماً
             setTimeout(() => {
                 videoContainer.style.display = 'none';
                 document.documentElement.style.touchAction = 'pan-y';
@@ -475,7 +513,7 @@
                 document.documentElement.style.overflowY = 'auto';
                 document.body.style.overflowY = 'auto';
                 handleReveal();
-            }, 1000); // 1000ms تعني ثانية كاملة من النعومة المطلقة
+            }, 1200); 
         };
 
         window.addEventListener('scroll', handleReveal);
