@@ -16,7 +16,6 @@
             --glass-border: rgba(178, 147, 101, 0.15);
         }
 
-        /* منع السكرول الأفقي تماماً وتثبيت اللمس فوق وتحت بس */
         html, body {
             margin: 0;
             padding: 0;
@@ -26,14 +25,13 @@
             background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
             color: var(--primary-dark);
-            overflow-x: hidden; /* منع الحركة يمين وشمال نهائياً */
-            overflow-y: hidden; /* مقفول في البداية للمقدمة */
-            touch-action: pan-y; /* السماح بالحركة الرأسية فقط */
+            overflow-x: hidden;
+            overflow-y: hidden;
+            touch-action: pan-y;
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
         }
 
-        /* أنميشن السكرول المريح */
         .reveal-element {
             opacity: 0;
             transform: translateY(25px);
@@ -45,7 +43,6 @@
             transform: translateY(0);
         }
 
-        /* ----- STAGE 1: THE ENVELOPE ----- */
         #intro-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -78,7 +75,6 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* ----- STAGE 2: FULLSCREEN VIDEO PLAYER ----- */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -94,10 +90,9 @@
         #wedding-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* يملأ الشاشة كاملة فل بدون أي حواف سوداء */
+            object-fit: cover;
         }
 
-        /* ----- STAGE 3: MAIN CONTENT ----- */
         #main-content {
             display: none;
             width: 100%;
@@ -107,7 +102,6 @@
             overflow-x: hidden;
         }
 
-        /* الصورة الكبيرة تاخد الشاشة بالملي */
         .hero-image-wrapper {
             width: 100vw;
             height: 100vh;
@@ -138,7 +132,6 @@
             60% { transform: translateX(-50%) translateY(-4px); }
         }
 
-        /* حاوية الأقسام المظبوطة لحواف الشاشة */
         .scroll-sections {
             width: 100%;
             max-width: 100vw;
@@ -179,7 +172,6 @@
             margin: 0 0 15px 0;
         }
 
-        /* العداد التنازلي المتناسق والمحمي من الخروج برة الشاشة */
         .countdown-grid {
             display: flex;
             justify-content: center;
@@ -218,7 +210,6 @@
             font-weight: 500;
         }
 
-        /* تصميم التقويم المتناسق لشهر 8 ومحدد على يوم 5 */
         .calendar-container {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -266,7 +257,6 @@
             color: var(--text-main);
         }
 
-        /* تحديد يوم 5 أغسطس */
         .calendar-day.selected-wedding-day {
             background-color: var(--primary-dark);
             color: #ffffff;
@@ -332,7 +322,6 @@
     </div>
 
     <div id="main-content">
-        
         <div class="hero-image-wrapper">
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
             <div class="scroll-indicator">↓</div>
@@ -451,7 +440,6 @@
             });
         }
 
-        // العداد التنازلي الدقيق لـ 5 أغسطس 2026
         const targetDate = new Date("August 5, 2026 17:00:00").getTime();
 
         const countdownInterval = setInterval(function() {
@@ -474,7 +462,6 @@
             }
         }, 1000);
 
-        // دوال التحكم بالفورم
         function openRSVPForm() {
             document.getElementById('rsvp-form-overlay').style.display = 'flex';
             document.documentElement.style.overflow = 'hidden';
@@ -487,11 +474,10 @@
             document.body.style.overflowY = 'auto';
         }
 
-        // ربط السكريبت بالجوجل شيت
         const form = document.getElementById('g-sheet-form');
         const formStatus = document.getElementById('form-status');
 
-        // ارمي رابط الـ Web App بتاع جوجل سكريبت هنا بالظبط:
+        // رابط الـ Web App المحدث الخاص بك:
         const googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
 
         form.addEventListener('submit', function(e) {
