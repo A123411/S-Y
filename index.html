@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- قفل الزووم ومنع المستخدم من اللعب في أبعاد الصفحة نهائياً -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Montserrat:wght@300;400;500;600&display=swap');
@@ -17,14 +18,15 @@
             --luxury-glow: 0 15px 35px rgba(178, 147, 101, 0.1);
         }
 
+        /* قفل المحاذاة الأفقية تماماً ومنع التموج يمين وشمال */
         html, body {
             margin: 0; padding: 0; width: 100%; max-width: 100vw; min-height: 100vh;
             background-color: var(--bg-color); font-family: 'Montserrat', sans-serif;
             color: var(--primary-dark); overflow-x: hidden; -webkit-font-smoothing: antialiased;
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; touch-action: pan-y; /* يسمح بالسكرول الرأسي فقط ويمنع الزووم اللمسي */
         }
 
-        /* زينة متطايرة في الخلفية */
+        /* زينة متطايرة فخمة في الخلفية */
         .sparkle {
             position: fixed; background: radial-gradient(circle, rgba(255,223,135,0.8) 0%, rgba(178,147,101,0) 70%);
             border-radius: 50%; pointer-events: none; z-index: 1; animation: floatSparkle 8s linear infinite;
@@ -35,7 +37,7 @@
             100% { transform: translateY(-5vh) translateX(50px) scale(1.2); opacity: 0; }
         }
 
-        /* شاشة التحميل والظرف الفخم */
+        /* شاشة الظرف الكبير */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--bg-color); z-index: 999;
@@ -52,7 +54,7 @@
             transition: transform 0.5s ease; margin-top: 20px;
         }
         
-        /* غطاء الظرف اللي بيفتح لفوق */
+        /* غطاء الظرف */
         .envelope-flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
             border-left: 140px solid transparent; border-right: 140px solid transparent;
@@ -69,11 +71,10 @@
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
             background: #ebdcc9; border-radius: 0 0 12px 12px;
             clip-path: polygon(0 40px, 140px 105px, 280px 40px, 280px 180px, 0 180px);
-            z-index: 4; display: flex; justify-content: center; align-items: flex-end;
-            padding-bottom: 15px; box-sizing: border-box;
+            z-index: 4;
         }
 
-        /* ختم ذهبي في نص الظرف */
+        /* الختم الذهبي */
         .envelope-seal {
             position: absolute; top: 85px; left: 50%; transform: translate(-50%, -50%);
             width: 45px; height: 45px; background: var(--accent-gold); border-radius: 50%;
@@ -83,7 +84,7 @@
         }
         .envelope-wrapper.open .envelope-seal { opacity: 0; pointer-events: none; }
 
-        /* الكارت اللي بيطلع من جوه وفيه اسم العرسان */
+        /* كارت المفاجأة اللي بيطلع من جوه */
         .wedding-card {
             position: absolute; bottom: 10px; left: 15px; width: 250px; height: 150px;
             background: #ffffff; border: 1px solid var(--accent-gold); border-radius: 8px;
@@ -105,25 +106,24 @@
             letter-spacing: 3px; margin-top: 5px; text-transform: uppercase;
         }
 
-        /* نص إرشادي تحت الظرف */
         .loading-text {
             font-family: 'Cinzel', serif; font-size: 11px; color: var(--accent-gold);
             letter-spacing: 3px; margin-top: 30px; font-weight: 600; text-align: center;
         }
 
-        /* حاوية الفيديو */
+        /* حاوية الفيديو المثالية مالي الشاشة وبدون أي زووم */
         #video-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 988; display: none;
             justify-content: center; align-items: center; overflow: hidden;
             transition: opacity 0.4s ease-in-out; opacity: 1;
         }
-        #wedding-video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        #wedding-video { width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; }
 
-        /* باقي المحتوى والسكرول */
-        #main-content { display: none; width: 100%; max-width: 100vw; position: relative; z-index: 2; }
+        /* محتوى السكرول والصور */
+        #main-content { display: none; width: 100%; max-width: 100vw; position: relative; z-index: 2; overflow-x: hidden; }
         .hero-image-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; background: #000; }
-        .hero-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .hero-image { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
         .hero-overlay-glow {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(61,37,25,0.2) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
@@ -140,7 +140,7 @@
         .reveal-element { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal-element.active { opacity: 1; transform: translateY(0); }
 
-        .scroll-sections { width: 100%; box-sizing: border-box; padding: 60px 20px 120px 20px; display: flex; flex-direction: column; align-items: center; }
+        .scroll-sections { width: 100%; box-sizing: border-box; padding: 60px 20px 120px 20px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         .section {
             width: 100%; max-width: 340px; text-align: center; margin-bottom: 75px; box-sizing: border-box;
             background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 35px 20px; border-radius: 24px; box-shadow: var(--luxury-glow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative;
@@ -174,6 +174,7 @@
     <div class="sparkle" style="left: 75%; animation-delay: 4s; width: 6px; height: 6px;"></div>
     <div class="sparkle" style="left: 90%; animation-delay: 1s; width: 11px; height: 11px;"></div>
 
+    <!-- الملف الصوتي الأساسي -->
     <audio id="bg-music" loop>
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
     </audio>
@@ -192,10 +193,10 @@
             <div class="envelope-seal">💍</div>
         </div>
 
-        <div class="loading-text" id="status-hint">Loading Secret...</div>
+        <div class="loading-text" id="status-hint">Click Envelope to Open</div>
     </div>
 
-    <!-- حاوية الفيديو (مرة واحدة بدون لووب) -->
+    <!-- حاوية الفيديو الإجبارية (صامتة لضمان العمل التلقائي الفوري والمزيكا شغالة في الخلفية) -->
     <div id="video-container">
         <video id="wedding-video" playsinline preload="auto" muted>
             <source src="AA 2.mov" type="video/quicktime">
@@ -275,7 +276,7 @@
                 </div>
                 <div style="margin-bottom: 25px; text-align: left;">
                     <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Total Attendees</label>
-                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9"尊 required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
+                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
                 </div>
                 <button type="submit" class="action-button" style="width: 100%;">Confirm</button>
                 <div id="form-status" style="font-size: 13px; margin-top: 15px; display: none;">Sending...</div>
@@ -284,6 +285,22 @@
     </div>
 
     <script>
+        // منع قرص الشاشة وعمل زووم بإصبعين على أجهزة الموبايل لضمان قفل التصميم
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
         const envelope = document.getElementById('main-envelope');
         const statusHint = document.getElementById('status-hint');
         const videoContainer = document.getElementById('video-container');
@@ -292,61 +309,46 @@
         const mainContent = document.getElementById('main-content');
         const bgMusic = document.getElementById('bg-music');
 
-        let isVideoReady = false;
-
-        // الكود السحري: بيكتشف لو الفيديو اتحمل كفاية وجاهز يشتغل بدون تهنيج
-        weddingVideo.addEventListener('canplaythrough', () => {
-            isVideoReady = true;
-            statusHint.innerText = "✉️ Click Envelope to Open";
-            statusHint.style.color = "var(--primary-dark)";
-        }, { once: true });
-
-        // في حالة النت ميت خالص وما حملش في خلال 4 ثواني، بنشغل عادي عشان العميل ما يزهقش
-        setTimeout(() => {
-            if(!isVideoReady) {
-                isVideoReady = true;
-                statusHint.innerText = "✉️ Click Envelope to Open";
-            }
-        }, 4000);
+        let isActionTriggered = false;
 
         function processEnvelopeOpen() {
-            if (!isVideoReady) {
-                statusHint.innerText = "Preparing video... Please wait a second";
-                return; 
-            }
+            if (isActionTriggered) return;
+            isActionTriggered = true;
 
-            // تفعيل حركة فتح الظرف الفخمة
+            // تشغيل حركة فتح غطاء الظرف وخروج الكارت الملكي
             envelope.classList.add('open');
-            statusHint.innerText = "Opening...";
+            statusHint.innerText = "Opening Invitation...";
 
-            // تشغيل الصوت في الخلفية فوراً لمنع حظر المتصفح
-            bgMusic.play().catch(e => console.log("Audio play blocked:", e));
+            // تشغيل الموسيقى كقناة صوتية أساسية مع تفعيل تفاعل المستخدم
+            bgMusic.play().catch(e => console.log("Audio block bypass:", e));
 
-            // ننتظر أنيميشن فتح الكارت يخلص (1 ثانية) وبعدين ننقل للفيديو طلقة
+            // فتح الفيديو إجبارياً بعد انتهاء أنيميشن فتح الظرف بالملي (1.1 ثانية)
             setTimeout(() => {
                 introOverlay.style.opacity = '0';
                 setTimeout(() => {
                     introOverlay.style.display = 'none';
                     videoContainer.style.display = 'flex';
                     
-                    weddingVideo.muted = false; // تشغيل الصوت للفيديو لو محتاج
+                    // إجبار تشغيل الفيديو الصامت لضمان تخطي حظر المتصفحات، مع بقاء الأوديو الأساسي شغال
+                    weddingVideo.muted = true; 
                     const playPromise = weddingVideo.play();
+                    
                     if (playPromise !== undefined) {
                         playPromise.catch(e => {
-                            console.log("Video fail:", e);
+                            console.log("Video fail fallback:", e);
                             bypassVideo();
                         });
                     }
                 }, 300);
-            }, 1200);
+            }, 1100);
         }
 
-        // أول ما الفيديو يخلص لوحده ينقل فوراً للسكرول
+        // الانتقال التلقائي الفوري أول ما كادر الفيديو ينتهي
         weddingVideo.onended = function() {
             bypassVideo();
         };
 
-        // تخطي سريع لو ضغط على الشاشة أثناء الفيديو
+        // الانتقال عند الضغط على شاشة الفيديو للتخطي السريع
         videoContainer.addEventListener('click', () => {
             bypassVideo();
         });
@@ -372,7 +374,7 @@
             });
         }
 
-        // العداد الزمني لـ 5 أغسطس 2026
+        // العداد الزمني التنازلي لـ 5 أغسطس 2026
         const targetDate = new Date("August 5, 2026 17:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
@@ -391,7 +393,7 @@
         function openRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'flex'; }
         function closeRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'none'; }
 
-        // ربط الشيت
+        // ربط البيانات بجوجل شيت بدون أخطاء
         const form = document.getElementById('g-sheet-form');
         const formStatus = document.getElementById('form-status');
         const googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
