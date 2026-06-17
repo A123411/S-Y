@@ -16,7 +16,6 @@
             --glass-border: rgba(178, 147, 101, 0.15);
         }
 
-        /* تم إصلاح السكرول هنا لضمان عمل الفيديو بشكل طبيعي */
         html, body {
             margin: 0;
             padding: 0;
@@ -51,7 +50,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.4s ease;
         }
 
         .envelope-btn {
@@ -85,7 +83,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.6s ease;
             opacity: 1;
         }
 
@@ -95,7 +93,6 @@
             object-fit: cover;
         }
 
-        /* زر Skip رايق بناءً على طلبك */
         .skip-video-btn {
             position: absolute;
             top: 25px;
@@ -473,23 +470,18 @@
         const bgMusic = document.getElementById('bg-music');
 
         function openEnvelope() {
-            introOverlay.style.opacity = '0';
-            setTimeout(() => {
-                introOverlay.style.display = 'none';
-                videoContainer.style.display = 'flex';
-                
-                // تشغيل الصوت والفيديو مباشرة وبثقة
-                bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
-                weddingVideo.play().catch(err => console.log("Video fail:", err));
-            }, 400);
+            // تشغيل فوري بدون أي تأخير سينمائي
+            weddingVideo.play().catch(err => console.log("Video fail:", err));
+            bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
+            
+            introOverlay.style.display = 'none';
+            videoContainer.style.display = 'flex';
         }
 
-        // عند انتهاء الفيديو تلقائياً
         weddingVideo.onended = function() {
             endVideoAndShowContent();
         };
 
-        // دالة التخطي (Skip) الموحدة لإنهاء الفيديو وفتح الصفحة بسلاسة
         function endVideoAndShowContent() {
             weddingVideo.pause();
             mainContent.style.display = 'block';
@@ -497,11 +489,10 @@
             
             setTimeout(() => {
                 videoContainer.style.display = 'none';
-                // تفعيل الاسكرول فقط بعد انتهاء الفيديو
                 document.documentElement.style.overflowY = 'auto';
                 document.body.style.overflowY = 'auto';
                 handleReveal();
-            }, 800);
+            }, 600);
             
             bgMusic.play().catch(error => console.log(error));
         }
