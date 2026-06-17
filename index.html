@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- منع الزووم واللعب في أبعاد الصفحة نهائياً -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
@@ -13,149 +12,391 @@
             --primary-dark: #3d2519;
             --accent-gold: #b29365;
             --text-main: #543d31;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(178, 147, 101, 0.2);
-            --luxury-glow: 0 15px 35px rgba(178, 147, 101, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(178, 147, 101, 0.15);
         }
 
-        /* قفل المحاذاة والحركة الجانبية تماماً */
+        /* تم إصلاح السكرول هنا لضمان عمل الفيديو بشكل طبيعي */
         html, body {
-            margin: 0; padding: 0; width: 100%; max-width: 100vw; min-height: 100vh;
-            background-color: var(--bg-color); font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark); overflow-x: hidden; -webkit-font-smoothing: antialiased;
-            scroll-behavior: smooth; touch-action: pan-y;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100vw;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            overflow-x: hidden;
+            touch-action: pan-y;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
-        /* شاشة الظرف الملكي القديم المستقر */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         #intro-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-color); z-index: 999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            perspective: 1000px; transition: opacity 0.5s ease;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-color);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.4s ease;
         }
 
-        .envelope-wrapper {
-            position: relative; width: 280px; height: 180px;
-            background: #ebdcc9; border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(61, 37, 25, 0.15);
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            border: 1px solid rgba(178, 147, 101, 0.3); transition: transform 0.3s ease;
-        }
-        
-        .envelope-text {
-            text-align: center; font-family: 'Cinzel', serif; font-size: 18px;
-            font-weight: 700; color: var(--primary-dark); letter-spacing: 2px;
-        }
-
-        .envelope-seal {
-            position: absolute; bottom: -25px; width: 50px; height: 50px;
-            background: var(--accent-gold); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); color: #fff; font-size: 18px;
-            border: 2px solid #fff;
+        .envelope-btn {
+            background: transparent;
+            border: 1.5px solid var(--accent-gold);
+            padding: 16px 32px;
+            font-family: 'Cinzel', serif;
+            color: var(--primary-dark);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(61, 37, 25, 0.03);
+            animation: pulseGlow 2s infinite;
         }
 
-        /* حاوية الفيديو المباشرة مالي الشاشة */
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.3); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(178, 147, 101, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
+        }
+
         #video-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 988; display: none;
-            justify-content: center; align-items: center; overflow: hidden;
+            position: fixed;
+            top: 0; left: 0; 
+            width: 100vw; height: 100vh;
+            background: #000000;
+            z-index: 988;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 1;
         }
-        #wedding-video { width: 100%; height: 100%; object-fit: cover; }
+
+        #wedding-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* زر Skip رايق بناءً على طلبك */
         .skip-video-btn {
-            position: absolute; top: 25px; right: 20px; background: rgba(0,0,0,0.6);
-            color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 8px 18px;
-            border-radius: 20px; font-size: 12px; font-family: 'Cinzel', serif; z-index: 10000;
-            cursor: pointer; letter-spacing: 1px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            position: absolute;
+            top: 25px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: 'Cinzel', serif;
+            z-index: 10000;
+            cursor: pointer;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
-        /* محتوى السكرول والصور */
-        #main-content { display: none; width: 100%; max-width: 100vw; position: relative; z-index: 2; }
-        .hero-image-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; background: #000; }
-        .hero-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .hero-overlay-glow {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(61,37,25,0.2) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
+        #main-content {
+            display: none;
+            width: 100%;
+            max-width: 100vw;
+            margin: 0 auto;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
-        
+
+        .hero-image-wrapper {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background: #000000;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .scroll-indicator-wrapper {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
         }
-        .scroll-initials { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 4px; }
-        .scroll-arrow { font-size: 20px; color: #fff; animation: bounceArrow 1.5s infinite; margin-top: 5px; }
-        @keyframes bounceArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
-        .scroll-sections { width: 100%; box-sizing: border-box; padding: 60px 20px 120px 20px; display: flex; flex-direction: column; align-items: center; }
+        .scroll-initials {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            margin-bottom: 2px;
+        }
+
+        .scroll-text {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            opacity: 0.9;
+        }
+
+        .scroll-arrow {
+            font-size: 20px;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            animation: bounceArrow 1.8s infinite ease-in-out;
+            margin-top: 2px;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(6px); opacity: 1; }
+        }
+
+        .scroll-sections {
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
+            padding: 60px 20px 120px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
         .section {
-            width: 100%; max-width: 340px; text-align: center; margin-bottom: 50px; box-sizing: border-box;
-            background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 35px 20px; border-radius: 24px; box-shadow: var(--luxury-glow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+            margin-bottom: 75px;
+            box-sizing: border-box;
         }
-        .serif-subtitle { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent-gold); letter-spacing: 3px; margin-bottom: 12px; }
-        .serif-title { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; text-transform: uppercase; color: var(--primary-dark); margin: 0 0 15px 0; }
-        
-        .countdown-grid { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
-        .countdown-box { background: var(--primary-dark); border-radius: 12px; padding: 12px 0; flex: 1; }
-        .countdown-number { font-family: 'Cinzel', serif; font-size: 18px; color: #fff; }
-        .countdown-label { font-size: 9px; text-transform: uppercase; color: var(--accent-gold); }
 
-        .calendar-container { background: #fff; border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px 15px; margin-top: 20px; }
-        .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px 4px; font-size: 11px; }
-        .day-label { color: var(--accent-gold); font-size: 9px; text-transform: uppercase; font-weight: bold; }
-        .calendar-day { height: 28px; display: flex; align-items: center; justify-content: center; }
-        .calendar-day.selected-wedding-day { background-color: var(--primary-dark); color: #fff; border-radius: 50%; font-weight: 700; }
+        .serif-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
 
-        .body-text { font-size: 13.5px; line-height: 1.7; color: var(--text-main); }
+        .serif-title {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            letter-spacing: 1.5px;
+            margin: 0 0 15px 0;
+        }
+
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 25px auto 0 auto;
+            width: 100%;
+            max-width: 340px;
+            box-sizing: border-box;
+        }
+
+        .countdown-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px 0;
+            flex: 1;
+            min-width: 0;
+            box-shadow: 0 8px 25px rgba(61, 37, 25, 0.02);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .countdown-number {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .countdown-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .calendar-container {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px 15px;
+            width: 100%;
+            max-width: 320px;
+            margin: 20px auto 0 auto;
+            box-shadow: 0 8px 25px rgba(61, 37, 25, 0.02);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-sizing: border-box;
+        }
+
+        .calendar-month-year {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px 4px;
+            font-size: 11px;
+        }
+
+        .day-label {
+            font-weight: 600;
+            color: var(--accent-gold);
+            font-size: 9px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day {
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+        }
+
+        .calendar-day.selected-wedding-day {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            border-radius: 50%;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(61, 37, 25, 0.25);
+            animation: pulseDay 2s infinite;
+        }
+
+        @keyframes pulseDay {
+            0% { box-shadow: 0 0 0 0 rgba(61, 37, 25, 0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(61, 37, 25, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(61, 37, 25, 0); }
+        }
+
+        .body-text {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--text-main);
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .luxury-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--accent-gold);
+            margin: 20px auto;
+            opacity: 0.4;
+        }
+
         .action-button {
-            display: inline-block; background: var(--primary-dark); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 30px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-dark);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(61, 37, 25, 0.12);
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <!-- أوديو الخلفية التلقائي القديم -->
     <audio id="bg-music" loop preload="auto">
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- شاشة الظرف المستقرة الأصلية -->
     <div id="intro-overlay">
-        <div class="envelope-wrapper" onclick="processEnvelopeOpen()">
-            <div class="envelope-text">
-                Saif & Yara<br>
-                <span style="font-size: 10px; color: var(--accent-gold); letter-spacing: 4px;">WEDDING INVITATION</span>
-            </div>
-            <div class="envelope-seal">💍</div>
-        </div>
+        <button class="envelope-btn" onclick="openEnvelope()">✉️ Open Invitation</button>
     </div>
 
-    <!-- حاوية الفيديو المباشرة بخصائص الآيفون الأصلية -->
     <div id="video-container">
-        <button class="skip-video-btn" onclick="bypassVideo()">Skip ✕</button>
-        <video id="wedding-video" playsinline webkit-playsinline preload="auto">
+        <button class="skip-video-btn" onclick="endVideoAndShowContent()">Skip ✕</button>
+        <video id="wedding-video" playsinline webkit-playsinline preload="auto" muted>
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
     </div>
 
-    <!-- محتوى السكرول الرئيسي -->
     <div id="main-content">
         <div class="hero-image-wrapper">
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
-            <div class="hero-overlay-glow"></div>
+            
             <div class="scroll-indicator-wrapper">
                 <div class="scroll-initials">S 💍 Y</div>
+                <span class="scroll-text">Please Scroll Down to Reveal</span>
                 <span class="scroll-arrow">↓</span>
             </div>
         </div>
 
         <div class="scroll-sections">
-            <!-- العداد -->
-            <div class="section">
+
+            <div class="section reveal-element">
                 <div class="serif-subtitle">The Countdown</div>
-                <h2 class="serif-title" style="font-size: 16px;">Counting to our forever</h2>
+                <h2 class="serif-title" style="font-size: 18px;">Counting to our forever</h2>
                 <div class="countdown-grid">
                     <div class="countdown-box"><div class="countdown-number" id="days">00</div><div class="countdown-label">Days</div></div>
                     <div class="countdown-box"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Hrs</div></div>
@@ -164,115 +405,128 @@
                 </div>
             </div>
 
-            <!-- الكالندر المظبوط على شهر 8 -->
-            <div class="section">
+            <div class="section reveal-element">
                 <div class="serif-subtitle">Save Our Date</div>
                 <h2 class="serif-title">August 2026</h2>
+                
                 <div class="calendar-container">
+                    <div class="calendar-month-year">August 2026</div>
                     <div class="calendar-days-grid">
                         <div class="day-label">Su</div><div class="day-label">Mo</div><div class="day-label">Tu</div><div class="day-label">We</div><div class="day-label">Th</div><div class="day-label">Fr</div><div class="day-label">Sa</div>
+                        
                         <div class="calendar-day" style="grid-column-start: 7;">1</div>
                         <div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div>
                         <div class="calendar-day selected-wedding-day">5</div>
                         <div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
                     </div>
                 </div>
-                <p class="body-text" style="font-weight: 500; margin-top: 15px;">Wednesday, August 5, 2026</p>
+                <div class="luxury-divider"></div>
+                <p class="body-text" style="font-weight: 500;">Wednesday, August 5, 2026</p>
             </div>
 
-            <!-- اللوكيشن -->
-            <div class="section">
+            <div class="section reveal-element">
                 <div class="serif-subtitle">The Venue</div>
                 <h1 class="serif-title">White Garden</h1>
-                <a href="https://maps.app.goo.gl/HYSrfff24ZMuZSDe6?g_st=iw" target="_blank" class="action-button">📍 Open Maps</a>
+                <p class="body-text">We are so excited to celebrate with you under the stars. Join us for a magical evening full of love, laughter, and beautiful memories.</p>
+                <a href="https://maps.app.goo.gl/HYSrfff24ZMuZSDe6?g_st=iw" target="_blank" class="action-button">📍 Open in Google Maps</a>
             </div>
 
-            <!-- RSVP -->
-            <div class="section">
+            <div class="section reveal-element" style="margin-bottom: 0;">
                 <div class="serif-subtitle">Kindly Reply</div>
-                <h1 class="serif-title">RSVP</h1>
+                <h1 class="serif-title" style="font-size: 28px;">RSVP</h1>
+                <p class="body-text">Please let us know if you can make it before the deadline.</p>
                 <button class="action-button" onclick="openRSVPForm()">Fill the Form</button>
             </div>
+
         </div>
     </div>
 
-    <!-- فورم الـ RSVP -->
-    <div id="rsvp-form-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(247,238,227,0.98); z-index: 10000; justify-content: center; align-items: center;">
-        <div style="width: 90%; max-width: 380px; padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; text-align: center; position: relative; box-sizing: border-box;">
-            <button onclick="closeRSVPForm()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
-            <div class="serif-subtitle">Attendance Form</div>
-            <form id="g-sheet-form" style="margin-top: 20px;">
+    <div id="rsvp-form-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(247,238,227,0.98); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="width: 90%; max-width: 380px; padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: 0 10px 30px rgba(61, 37, 25, 0.05); position: relative; box-sizing: border-box; text-align: center;">
+            <button onclick="closeRSVPForm()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; color: var(--primary-dark); cursor: pointer;">✕</button>
+            
+            <div class="serif-subtitle" style="margin-top: 10px;">Attendance Form</div>
+            <div class="luxury-divider"></div>
+            
+            <form id="g-sheet-form">
                 <div style="margin-bottom: 20px; text-align: left;">
-                    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Your Name</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
+                    <label for="name" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 6px;">Your Name</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(255,255,255,0.7); font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box;">
                 </div>
+                
                 <div style="margin-bottom: 25px; text-align: left;">
-                    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Total Attendees</label>
-                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
+                    <label for="totalGuests" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 6px;">Total Number of Attendees (1-9)</label>
+                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(255,255,255,0.7); font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box;">
                 </div>
-                <button type="submit" class="action-button" style="width: 100%;">Confirm</button>
-                <div id="form-status" style="font-size: 13px; margin-top: 15px; display: none;">Sending...</div>
+                
+                <button type="submit" class="action-button" style="width: 100%; margin-top: 0;">Confirm Attendance</button>
+                <div id="form-status" style="font-size: 13px; margin-top: 15px; color: var(--accent-gold); display: none;">Sending...</div>
             </form>
         </div>
     </div>
 
     <script>
-        // منع الزووم التموجي نهائياً على الموبايل
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1) event.preventDefault();
-        }, { passive: false });
-
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) event.preventDefault();
-            lastTouchEnd = now;
-        }, false);
-
-        const introOverlay = document.getElementById('intro-overlay');
         const videoContainer = document.getElementById('video-container');
         const weddingVideo = document.getElementById('wedding-video');
+        const introOverlay = document.getElementById('intro-overlay');
         const mainContent = document.getElementById('main-content');
         const bgMusic = document.getElementById('bg-music');
 
-        function processEnvelopeOpen() {
-            // إخفاء شاشة الظرف، إظهار حاوية الفيديو فوراً وتشغيله كأول كود بالظبط
-            introOverlay.style.display = 'none';
-            videoContainer.style.display = 'flex';
-            
-            // تشغيل الصوت الأساسي في الخلفية فوراً
-            bgMusic.play().catch(e => console.log("Audio play blocked:", e));
+        function openEnvelope() {
+            introOverlay.style.opacity = '0';
+            setTimeout(() => {
+                introOverlay.style.display = 'none';
+                videoContainer.style.display = 'flex';
+                
+                // تشغيل الصوت والفيديو مباشرة وبثقة
+                bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
+                weddingVideo.play().catch(err => console.log("Video fail:", err));
+            }, 400);
+        }
 
-            // تشغيل الفيديو بشكل مباشر ومستقر
-            weddingVideo.play().catch(err => {
-                console.log("Video strict play failed, bypassing:", err);
-                bypassVideo();
+        // عند انتهاء الفيديو تلقائياً
+        weddingVideo.onended = function() {
+            endVideoAndShowContent();
+        };
+
+        // دالة التخطي (Skip) الموحدة لإنهاء الفيديو وفتح الصفحة بسلاسة
+        function endVideoAndShowContent() {
+            weddingVideo.pause();
+            mainContent.style.display = 'block';
+            videoContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                videoContainer.style.display = 'none';
+                // تفعيل الاسكرول فقط بعد انتهاء الفيديو
+                document.documentElement.style.overflowY = 'auto';
+                document.body.style.overflowY = 'auto';
+                handleReveal();
+            }, 800);
+            
+            bgMusic.play().catch(error => console.log(error));
+        }
+
+        window.addEventListener('scroll', handleReveal);
+
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal-element');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 80;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
             });
         }
 
-        // انتهاء الفيديو التلقائي
-        weddingVideo.onended = function() {
-            bypassVideo();
-        };
-
-        // الضغط للتخطي أو الـ Skip المباشر
-        weddingVideo.addEventListener('click', () => {
-            bypassVideo();
-        });
-
-        function bypassVideo() {
-            weddingVideo.pause();
-            videoContainer.style.display = 'none';
-            mainContent.style.display = 'block';
-            // التأكيد على استمرار الموسيقى
-            bgMusic.play().catch(e => console.log(e));
-        }
-
-        // العداد التنازلي لـ 5 أغسطس 2026
         const targetDate = new Date("August 5, 2026 17:00:00").getTime();
-        setInterval(function() {
+
+        const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const difference = targetDate - now;
+
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
@@ -282,31 +536,59 @@
             document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (difference < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector(".countdown-grid").innerHTML = "<div class='serif-subtitle'>Welcome to our Wedding!</div>";
+            }
         }, 1000);
 
-        function openRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'flex'; }
-        function closeRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'none'; }
+        function openRSVPForm() {
+            document.getElementById('rsvp-form-overlay').style.display = 'flex';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        }
 
-        // ربط الجوجل شيت
+        function closeRSVPForm() {
+            document.getElementById('rsvp-form-overlay').style.display = 'none';
+            document.documentElement.style.overflowY = 'auto';
+            document.body.style.overflowY = 'auto';
+        }
+
         const form = document.getElementById('g-sheet-form');
         const formStatus = document.getElementById('form-status');
+
         const googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
 
         form.addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); 
             formStatus.style.display = 'block';
             formStatus.innerText = 'Sending...';
-            const formData = new FormData(form);
-            const finalUrl = `${googleAppScriptUrl}?name=${encodeURIComponent(formData.get('name'))}&totalGuests=${encodeURIComponent(formData.get('totalGuests'))}`;
+            formStatus.style.color = 'var(--accent-gold)';
 
-            fetch(finalUrl, { method: 'GET', mode: 'no-cors' })
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const totalGuests = formData.get('totalGuests');
+
+            const finalUrl = `${googleAppScriptUrl}?name=${encodeURIComponent(name)}&totalGuests=${encodeURIComponent(totalGuests)}`;
+
+            fetch(finalUrl, { 
+                method: 'GET',
+                mode: 'no-cors'
+            })
             .then(() => {
-                formStatus.innerText = 'Attendance confirmed! ✨';
-                form.reset();
-                setTimeout(() => { closeRSVPForm(); }, 2000);
-            }).catch(err => {
-                formStatus.innerText = 'Error, try again.';
-                console.error(err);
+                formStatus.innerText = 'Attendance confirmed! Thank you ✨';
+                formStatus.style.color = '#3d2519';
+                form.reset(); 
+                
+                setTimeout(() => {
+                    closeRSVPForm();
+                }, 2500);
+            })
+            .catch(error => {
+                formStatus.innerText = 'Connection error. Please try again.';
+                formStatus.style.color = 'red';
+                console.error('Error:', error);
             });
         });
     </script>
