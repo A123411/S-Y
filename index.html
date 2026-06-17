@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- قفل الزووم ومنع المستخدم من اللعب في أبعاد الصفحة نهائياً -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Montserrat:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@400;500;600&display=swap');
 
         :root {
             --bg-color: #fbf7f2;
@@ -15,213 +14,165 @@
             --text-main: #543d31;
             --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(178, 147, 101, 0.2);
-            --luxury-glow: 0 15px 35px rgba(178, 147, 101, 0.1);
         }
 
-        /* قفل المحاذاة الأفقية تماماً ومنع التموج يمين وشمال */
+        /* منع أي حركة يمين أو شمال أو زووم نهائياً */
         html, body {
             margin: 0; padding: 0; width: 100%; max-width: 100vw; min-height: 100vh;
             background-color: var(--bg-color); font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark); overflow-x: hidden; -webkit-font-smoothing: antialiased;
-            scroll-behavior: smooth; touch-action: pan-y; /* يسمح بالسكرول الرأسي فقط ويمنع الزووم اللمسي */
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth; touch-action: pan-y;
         }
 
-        /* زينة متطايرة فخمة في الخلفية */
-        .sparkle {
-            position: fixed; background: radial-gradient(circle, rgba(255,223,135,0.8) 0%, rgba(178,147,101,0) 70%);
-            border-radius: 50%; pointer-events: none; z-index: 1; animation: floatSparkle 8s linear infinite;
-        }
-        @keyframes floatSparkle {
-            0% { transform: translateY(105vh) translateX(0) scale(0.5); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-5vh) translateX(50px) scale(1.2); opacity: 0; }
-        }
-
-        /* شاشة الظرف الكبير */
+        /* شاشة الظرف */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-color); z-index: 999;
+            background-color: var(--bg-color); z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            perspective: 1000px; transition: opacity 0.5s ease;
         }
 
-        /* تصميم الظرف الملكي ثلاثي الأبعاد */
-        .envelope-wrapper {
+        .envelope-container {
             position: relative; width: 280px; height: 180px;
-            background: #e2d7c7; border-radius: 0 0 12px 12px;
-            box-shadow: 0 20px 40px rgba(61, 37, 25, 0.15);
-            cursor: pointer; transform-style: preserve-3d;
-            transition: transform 0.5s ease; margin-top: 20px;
-        }
-        
-        /* غطاء الظرف */
-        .envelope-flap {
-            position: absolute; top: 0; left: 0; width: 0; height: 0;
-            border-left: 140px solid transparent; border-right: 140px solid transparent;
-            border-top: 100px solid #d4c5b3; transform-origin: top;
-            transition: transform 0.4s ease 0.1s; z-index: 3;
+            background: #ebdcc9; border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(61, 37, 25, 0.15);
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            border: 1px solid rgba(178, 147, 101, 0.3); transition: transform 0.3s ease;
         }
 
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg); z-index: 1;
-        }
+        .envelope-container:active { transform: scale(0.98); }
 
-        /* جيب الظرف الأمامي */
-        .envelope-front {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-            background: #ebdcc9; border-radius: 0 0 12px 12px;
-            clip-path: polygon(0 40px, 140px 105px, 280px 40px, 280px 180px, 0 180px);
-            z-index: 4;
-        }
-
-        /* الختم الذهبي */
-        .envelope-seal {
-            position: absolute; top: 85px; left: 50%; transform: translate(-50%, -50%);
-            width: 45px; height: 45px; background: var(--accent-gold); border-radius: 50%;
-            z-index: 5; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); color: #fff; font-size: 14px;
-            transition: opacity 0.3s ease; border: 1px solid #fff;
-        }
-        .envelope-wrapper.open .envelope-seal { opacity: 0; pointer-events: none; }
-
-        /* كارت المفاجأة اللي بيطلع من جوه */
-        .wedding-card {
-            position: absolute; bottom: 10px; left: 15px; width: 250px; height: 150px;
-            background: #ffffff; border: 1px solid var(--accent-gold); border-radius: 8px;
-            z-index: 2; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box; padding: 10px;
-        }
-
-        .envelope-wrapper.open .wedding-card {
-            transform: translateY(-110px);
-        }
-
-        .card-names {
-            font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700;
+        .envelope-text {
+            font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700;
             color: var(--primary-dark); letter-spacing: 2px; text-align: center;
         }
-        .card-sub {
-            font-family: 'Cinzel', serif; font-size: 8px; color: var(--accent-gold);
-            letter-spacing: 3px; margin-top: 5px; text-transform: uppercase;
+
+        .seal-button {
+            position: absolute; bottom: -25px; width: 50px; height: 50px;
+            background: var(--accent-gold); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); color: #fff; font-size: 18px;
+            border: 2px solid #fff; animation: pulse 2s infinite;
         }
 
-        .loading-text {
-            font-family: 'Cinzel', serif; font-size: 11px; color: var(--accent-gold);
-            letter-spacing: 3px; margin-top: 30px; font-weight: 600; text-align: center;
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(178, 147, 101, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* حاوية الفيديو المثالية مالي الشاشة وبدون أي زووم */
+        /* حاوية الفيديو المضمونة مالي الشاشة */
         #video-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 988; display: none;
+            background: #000000; z-index: 9998; display: none;
             justify-content: center; align-items: center; overflow: hidden;
-            transition: opacity 0.4s ease-in-out; opacity: 1;
         }
-        #wedding-video { width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; }
-
-        /* محتوى السكرول والصور */
-        #main-content { display: none; width: 100%; max-width: 100vw; position: relative; z-index: 2; overflow-x: hidden; }
-        .hero-image-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; background: #000; }
-        .hero-image { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-        .hero-overlay-glow {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(61,37,25,0.2) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
-        }
-        .scroll-indicator-wrapper {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
-        }
-        .scroll-initials { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 4px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-        .scroll-text { font-family: 'Cinzel', serif; font-size: 10px; color: #fff; letter-spacing: 3px; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
-        .scroll-arrow { font-size: 20px; color: #fff; animation: bounceArrow 1.8s infinite ease-in-out; }
-        @keyframes bounceArrow { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(6px); opacity: 1; } }
-
-        .reveal-element { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
-        .reveal-element.active { opacity: 1; transform: translateY(0); }
-
-        .scroll-sections { width: 100%; box-sizing: border-box; padding: 60px 20px 120px 20px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-        .section {
-            width: 100%; max-width: 340px; text-align: center; margin-bottom: 75px; box-sizing: border-box;
-            background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 35px 20px; border-radius: 24px; box-shadow: var(--luxury-glow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative;
-        }
-        .serif-subtitle { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--accent-gold); letter-spacing: 4px; margin-bottom: 12px; }
-        .serif-title { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; text-transform: uppercase; color: var(--primary-dark); letter-spacing: 1.5px; margin: 0 0 15px 0; }
         
-        .countdown-grid { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
-        .countdown-box { background: var(--primary-dark); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 12px 0; flex: 1; }
-        .countdown-number { font-family: 'Cinzel', serif; font-size: 18px; color: #fff; }
-        .countdown-label { font-size: 9px; text-transform: uppercase; color: var(--accent-gold); }
+        /* إجبار الفيديو على ملء الشاشة تماماً والمحافظة على أبعاده */
+        #wedding-video {
+            width: 100%; height: 100%; object-fit: cover; pointer-events: auto;
+        }
 
-        .calendar-container { background: rgba(255, 255, 255, 0.8); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px 15px; margin-top: 20px; }
-        .calendar-month-year { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; color: var(--primary-dark); margin-bottom: 12px; }
-        .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px 4px; font-size: 11px; }
-        .day-label { color: var(--accent-gold); font-size: 9px; text-transform: uppercase; }
-        .calendar-day { height: 28px; display: flex; align-items: center; justify-content: center; }
-        .calendar-day.selected-wedding-day { background-color: var(--primary-dark); color: #fff; border-radius: 50%; font-weight: 700; border: 1px solid var(--accent-gold); }
+        /* زر تخطي اختياري فوق الفيديو */
+        .skip-video-btn {
+            position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5);
+            color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px;
+            border-radius: 20px; font-size: 12px; font-family: 'Cinzel', serif; z-index: 10000;
+            cursor: pointer;
+        }
 
-        .body-text { font-size: 13.5px; line-height: 1.7; color: var(--text-main); }
+        /* المحتوى الأساسي بعد الفيديو */
+        #main-content { display: none; width: 100%; max-width: 100vw; }
+        
+        .hero-image-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+        .hero-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+        }
+
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            text-align: center; color: #fff; width: 100%;
+        }
+        .scroll-initials { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; letter-spacing: 4px; }
+        .scroll-arrow { font-size: 20px; margin-top: 5px; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+        /* السيكشنز */
+        .scroll-sections { padding: 40px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; }
+        .section {
+            width: 100%; max-width: 340px; text-align: center; margin-bottom: 50px; box-sizing: border-box;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 30px 20px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(178,147,101,0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .serif-subtitle { font-family: 'Cinzel', serif; font-size: 11px; color: var(--accent-gold); letter-spacing: 3px; margin-bottom: 8px; text-transform: uppercase; }
+        .serif-title { font-family: 'Cinzel', serif; font-size: 22px; color: var(--primary-dark); margin: 0 0 15px 0; }
+
+        /* العداد */
+        .countdown-grid { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+        .countdown-box { background: var(--primary-dark); border-radius: 10px; padding: 10px 0; flex: 1; }
+        .countdown-number { font-family: 'Cinzel', serif; font-size: 16px; color: #fff; }
+        .countdown-label { font-size: 8px; color: var(--accent-gold); text-transform: uppercase; }
+
+        /* النتيجة */
+        .calendar-container { background: #fff; border-radius: 15px; padding: 15px; margin-top: 15px; border: 1px solid var(--glass-border); }
+        .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; font-size: 11px; }
+        .day-label { color: var(--accent-gold); font-size: 9px; font-weight: bold; }
+        .calendar-day { height: 26px; display: flex; align-items: center; justify-content: center; }
+        .calendar-day.selected-wedding-day { background-color: var(--primary-dark); color: #fff; border-radius: 50%; font-weight: bold; }
+
         .action-button {
-            display: inline-flex; align-items: center; justify-content: center; background: var(--primary-dark); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 30px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; margin-top: 10px;
+            display: inline-block; background: var(--primary-dark); color: #fff; text-decoration: none;
+            padding: 12px 28px; border-radius: 25px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border: none; cursor: pointer; margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- زينة متطايرة في الخلفية -->
-    <div class="sparkle" style="left: 10%; animation-delay: 0s; width: 8px; height: 8px;"></div>
-    <div class="sparkle" style="left: 35%; animation-delay: 2s; width: 14px; height: 14px;"></div>
-    <div class="sparkle" style="left: 75%; animation-delay: 4s; width: 6px; height: 6px;"></div>
-    <div class="sparkle" style="left: 90%; animation-delay: 1s; width: 11px; height: 11px;"></div>
-
-    <!-- الملف الصوتي الأساسي -->
-    <audio id="bg-music" loop>
+    <!-- الأوديو الخاص بالخلفية (بدون تشغيل تلقائي لمنع الحظر) -->
+    <audio id="bg-music" loop preload="auto">
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- شاشة الظرف الفخم الجديد -->
+    <!-- شاشة الظرف المستقرة والقابلة للضغط -->
     <div id="intro-overlay">
-        <div class="serif-subtitle" style="font-size: 14px;">Wedding Invitation</div>
-        
-        <div class="envelope-wrapper" id="main-envelope" onclick="processEnvelopeOpen()">
-            <div class="envelope-flap"></div>
-            <div class="wedding-card">
-                <div class="card-names">Saif & Yara</div>
-                <div class="card-sub">Save The Date</div>
+        <div class="envelope-container" onclick="openEnvelopeAndPlayVideo()">
+            <div class="envelope-text">
+                Saif & Yara<br>
+                <span style="font-size: 10px; color: var(--accent-gold); letter-spacing: 4px;">WEDDING INVITATION</span>
             </div>
-            <div class="envelope-front"></div>
-            <div class="envelope-seal">💍</div>
+            <div class="seal-button">💍</div>
         </div>
-
-        <div class="loading-text" id="status-hint">Click Envelope to Open</div>
+        <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--accent-gold); margin-top: 50px; letter-spacing: 2px;">Tap Envelope to Open</div>
     </div>
 
-    <!-- حاوية الفيديو الإجبارية (صامتة لضمان العمل التلقائي الفوري والمزيكا شغالة في الخلفية) -->
+    <!-- حاوية الفيديو المضمونة بنسبة 100% بتفاعل مستخدم حقيقي وبصوت جاهز -->
     <div id="video-container">
-        <video id="wedding-video" playsinline preload="auto" muted>
+        <button class="skip-video-btn" onclick="endVideoAndShowContent()">Skip ✕</button>
+        <video id="wedding-video" playsinline preload="auto">
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
     </div>
 
-    <!-- محتوى السكرول والصورة الأولى -->
+    <!-- المحتوى بعد انتهاء الفيديو مباشرة -->
     <div id="main-content">
         <div class="hero-image-wrapper">
-            <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Saif & Yara">
-            <div class="hero-overlay-glow"></div>
-            
-            <div class="scroll-indicator-wrapper">
+            <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Wedding Hero">
+            <div class="hero-overlay"></div>
+            <div class="scroll-indicator">
                 <div class="scroll-initials">S 💍 Y</div>
-                <span class="scroll-text">Scroll Down to Open</span>
-                <span class="scroll-arrow">↓</span>
+                <div class="scroll-arrow">↓</div>
             </div>
         </div>
 
         <div class="scroll-sections">
-            <!-- العداد -->
-            <div class="section reveal-element">
+            <!-- العداد التنازلي -->
+            <div class="section">
                 <div class="serif-subtitle">The Countdown</div>
-                <h2 class="serif-title" style="font-size: 18px;">Counting to our forever</h2>
+                <h2 class="serif-title" style="font-size: 16px;">Counting Down to Our Wedding</h2>
                 <div class="countdown-grid">
                     <div class="countdown-box"><div class="countdown-number" id="days">00</div><div class="countdown-label">Days</div></div>
                     <div class="countdown-box"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Hrs</div></div>
@@ -230,12 +181,11 @@
                 </div>
             </div>
 
-            <!-- الكالندر -->
-            <div class="section reveal-element">
+            <!-- التقويم -->
+            <div class="section">
                 <div class="serif-subtitle">Save Our Date</div>
                 <h2 class="serif-title">August 2026</h2>
                 <div class="calendar-container">
-                    <div class="calendar-month-year">August 2026</div>
                     <div class="calendar-days-grid">
                         <div class="day-label">Su</div><div class="day-label">Mo</div><div class="day-label">Tu</div><div class="day-label">We</div><div class="day-label">Th</div><div class="day-label">Fr</div><div class="day-label">Sa</div>
                         <div class="calendar-day" style="grid-column-start: 7;">1</div>
@@ -244,174 +194,131 @@
                         <div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
                     </div>
                 </div>
-                <p class="body-text" style="font-weight: 500; margin-top: 15px;">Wednesday, August 5, 2026</p>
+                <p style="font-size: 13px; margin-top: 10px; color: var(--text-main);">Wednesday, August 5, 2026</p>
             </div>
 
-            <!-- اللوكيشن -->
-            <div class="section reveal-element">
+            <!-- مكان الفرح -->
+            <div class="section">
                 <div class="serif-subtitle">The Venue</div>
                 <h1 class="serif-title">White Garden</h1>
-                <p class="body-text">We are so excited to celebrate with you under the stars.</p>
-                <a href="https://maps.app.goo.gl/HYSrfff24ZMuZSDe6?g_st=iw" target="_blank" class="action-button">📍 Open Maps</a>
+                <a href="https://maps.app.goo.gl/HYSrfff24ZMuZSDe6?g_st=iw" target="_blank" class="action-button">📍 View Location</a>
             </div>
 
-            <!-- الفورم -->
-            <div class="section reveal-element" style="margin-bottom: 0;">
-                <div class="serif-subtitle">Kindly Reply</div>
-                <h1 class="serif-title">RSVP</h1>
-                <button class="action-button" onclick="openRSVPForm()">Fill the Form</button>
+            <!-- فورم RSVP -->
+            <div class="section">
+                <div class="serif-subtitle">RSVP</div>
+                <h1 class="serif-title">Are You Coming?</h1>
+                <button class="action-button" onclick="openRSVP()">Fill Form</button>
             </div>
         </div>
     </div>
 
-    <!-- فورم الـ RSVP -->
-    <div id="rsvp-form-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(247,238,227,0.98); z-index: 1000; justify-content: center; align-items: center;">
-        <div style="width: 90%; max-width: 380px; padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; text-align: center; position: relative; box-sizing: border-box;">
-            <button onclick="closeRSVPForm()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
-            <div class="serif-subtitle">Attendance Form</div>
-            <form id="g-sheet-form" style="margin-top: 20px;">
-                <div style="margin-bottom: 20px; text-align: left;">
-                    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Your Name</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
-                </div>
-                <div style="margin-bottom: 25px; text-align: left;">
-                    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Total Attendees</label>
-                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; box-sizing: border-box;">
-                </div>
+    <!-- أوفرلاي فوروم الـ RSVP -->
+    <div id="rsvp-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(247,238,227,0.98); z-index: 10000; justify-content: center; align-items: center;">
+        <div style="width: 90%; max-width: 350px; background: #fff; padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; position: relative; box-sizing: border-box;">
+            <button onclick="closeRSVP()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px;">✕</button>
+            <div class="serif-subtitle">RSVP Form</div>
+            <form id="sheet-form" style="margin-top: 15px;">
+                <input type="text" id="name" placeholder="Your Name" required style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--glass-border); border-radius: 10px; box-sizing: border-box;">
+                <input type="number" id="guests" placeholder="Number of Guests" min="1" max="10" required style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--glass-border); border-radius: 10px; box-sizing: border-box;">
                 <button type="submit" class="action-button" style="width: 100%;">Confirm</button>
-                <div id="form-status" style="font-size: 13px; margin-top: 15px; display: none;">Sending...</div>
+                <div id="status-msg" style="margin-top: 10px; font-size: 12px; display: none;">Sending...</div>
             </form>
         </div>
     </div>
 
     <script>
-        // منع قرص الشاشة وعمل زووم بإصبعين على أجهزة الموبايل لضمان قفل التصميم
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
+        // قفل كامل لقرص الشاشة والزووم
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) e.preventDefault();
         }, { passive: false });
 
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
+        let lastTouch = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = Date.now();
+            if (now - lastTouch <= 300) e.preventDefault();
+            lastTouch = now;
         }, false);
 
-        const envelope = document.getElementById('main-envelope');
-        const statusHint = document.getElementById('status-hint');
+        const introOverlay = document.getElementById('intro-overlay');
         const videoContainer = document.getElementById('video-container');
         const weddingVideo = document.getElementById('wedding-video');
-        const introOverlay = document.getElementById('intro-overlay');
         const mainContent = document.getElementById('main-content');
         const bgMusic = document.getElementById('bg-music');
 
-        let isActionTriggered = false;
-
-        function processEnvelopeOpen() {
-            if (isActionTriggered) return;
-            isActionTriggered = true;
-
-            // تشغيل حركة فتح غطاء الظرف وخروج الكارت الملكي
-            envelope.classList.add('open');
-            statusHint.innerText = "Opening Invitation...";
-
-            // تشغيل الموسيقى كقناة صوتية أساسية مع تفعيل تفاعل المستخدم
-            bgMusic.play().catch(e => console.log("Audio block bypass:", e));
-
-            // فتح الفيديو إجبارياً بعد انتهاء أنيميشن فتح الظرف بالملي (1.1 ثانية)
-            setTimeout(() => {
-                introOverlay.style.opacity = '0';
-                setTimeout(() => {
-                    introOverlay.style.display = 'none';
-                    videoContainer.style.display = 'flex';
-                    
-                    // إجبار تشغيل الفيديو الصامت لضمان تخطي حظر المتصفحات، مع بقاء الأوديو الأساسي شغال
-                    weddingVideo.muted = true; 
-                    const playPromise = weddingVideo.play();
-                    
-                    if (playPromise !== undefined) {
-                        playPromise.catch(e => {
-                            console.log("Video fail fallback:", e);
-                            bypassVideo();
-                        });
-                    }
-                }, 300);
-            }, 1100);
-        }
-
-        // الانتقال التلقائي الفوري أول ما كادر الفيديو ينتهي
-        weddingVideo.onended = function() {
-            bypassVideo();
-        };
-
-        // الانتقال عند الضغط على شاشة الفيديو للتخطي السريع
-        videoContainer.addEventListener('click', () => {
-            bypassVideo();
-        });
-
-        function bypassVideo() {
-            mainContent.style.display = 'block';
-            videoContainer.style.opacity = '0';
-            setTimeout(() => {
-                videoContainer.style.display = 'none';
-                handleReveal();
-            }, 300);
-        }
-
-        window.addEventListener('scroll', handleReveal);
-        function handleReveal() {
-            const reveals = document.querySelectorAll('.reveal-element');
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 80) {
-                    element.classList.add('active');
-                }
+        function openEnvelopeAndPlayVideo() {
+            // إظهار حاوية الفيديو فوراً وإخفاء غطاء الظرف لمنع التهنيج
+            introOverlay.style.display = 'none';
+            videoContainer.style.display = 'flex';
+            
+            // تشغيل الفيديو بصوت طبيعي وبدء التفاعل الصريح مع المتصفح
+            weddingVideo.muted = false;
+            weddingVideo.play().catch(err => {
+                console.log("Video fail, auto skip to content:", err);
+                endVideoAndShowContent();
             });
         }
 
-        // العداد الزمني التنازلي لـ 5 أغسطس 2026
-        const targetDate = new Date("August 5, 2026 17:00:00").getTime();
-        setInterval(function() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        // عند انتهاء الفيديو تلقائياً
+        weddingVideo.onended = function() {
+            endVideoAndShowContent();
+        };
 
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        // عند الضغط على كادر الفيديو نفسه للتخطي
+        weddingVideo.addEventListener('click', function() {
+            endVideoAndShowContent();
+        });
+
+        function endVideoAndShowContent() {
+            weddingVideo.pause();
+            videoContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            
+            // تشغيل أغنية البستاني في الخلفية بنجاح الآن بعد إنهاء الفيديو
+            bgMusic.play().catch(e => console.log("Music blocked:", e));
+        }
+
+        // العداد الزمني لـ 5 أغسطس 2026
+        const countDate = new Date("August 5, 2026 17:00:00").getTime();
+        setInterval(function() {
+            const now = Date.now();
+            const diff = countDate - now;
+            
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+            document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+            document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+            document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
         }, 1000);
 
-        function openRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'flex'; }
-        function closeRSVPForm() { document.getElementById('rsvp-form-overlay').style.display = 'none'; }
+        function openRSVP() { document.getElementById('rsvp-overlay').style.display = 'flex'; }
+        function closeRSVP() { document.getElementById('rsvp-overlay').style.display = 'none'; }
 
-        // ربط البيانات بجوجل شيت بدون أخطاء
-        const form = document.getElementById('g-sheet-form');
-        const formStatus = document.getElementById('form-status');
-        const googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
+        // ربط الجوجل شيت
+        const rsvpForm = document.getElementById('sheet-form');
+        const statusMsg = document.getElementById('status-msg');
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
 
-        form.addEventListener('submit', function(e) {
+        rsvpForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            formStatus.style.display = 'block';
-            formStatus.innerText = 'Sending...';
-            const formData = new FormData(form);
-            const finalUrl = `${googleAppScriptUrl}?name=${encodeURIComponent(formData.get('name'))}&totalGuests=${encodeURIComponent(formData.get('totalGuests'))}`;
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = 'Sending...';
+            
+            const nameVal = document.getElementById('name').value;
+            const guestsVal = document.getElementById('guests').value;
+            const targetUrl = `${scriptUrl}?name=${encodeURIComponent(nameVal)}&totalGuests=${encodeURIComponent(guestsVal)}`;
 
-            fetch(finalUrl, { method: 'GET', mode: 'no-cors' })
+            fetch(targetUrl, { method: 'GET', mode: 'no-cors' })
             .then(() => {
-                formStatus.innerText = 'Attendance confirmed! ✨';
-                form.reset();
-                setTimeout(() => { closeRSVPForm(); }, 2000);
+                statusMsg.innerText = 'Done! See you there ✨';
+                rsvpForm.reset();
+                setTimeout(closeRSVP, 2000);
             }).catch(err => {
-                formStatus.innerText = 'Error, try again.';
+                statusMsg.innerText = 'Error, try again.';
                 console.error(err);
             });
         });
