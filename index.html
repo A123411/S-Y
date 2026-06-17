@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- قفل الزووم تماماً ومنع التلاعب بأبعاد الصفحة -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
@@ -16,7 +17,7 @@
             --glass-border: rgba(178, 147, 101, 0.2);
         }
 
-        /* منع أي حركة يمين أو شمال أو زووم نهائياً */
+        /* تثبيت الشاشة تماماً ومنع الحركة الجانبية */
         html, body {
             margin: 0; padding: 0; width: 100%; max-width: 100vw; min-height: 100vh;
             background-color: var(--bg-color); font-family: 'Montserrat', sans-serif;
@@ -24,7 +25,7 @@
             scroll-behavior: smooth; touch-action: pan-y;
         }
 
-        /* شاشة الظرف */
+        /* شاشة الظرف الأولية */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--bg-color); z-index: 9999;
@@ -42,8 +43,8 @@
         .envelope-container:active { transform: scale(0.98); }
 
         .envelope-text {
-            font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700;
-            color: var(--primary-dark); letter-spacing: 2px; text-align: center;
+            text-align: center; font-family: 'Cinzel', serif; font-size: 18px;
+            font-weight: 700; color: var(--primary-dark); letter-spacing: 2px;
         }
 
         .seal-button {
@@ -60,27 +61,27 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* حاوية الفيديو المضمونة مالي الشاشة */
+        /* حاوية الفيديو مالي الشاشة */
         #video-container {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9998; display: none;
             justify-content: center; align-items: center; overflow: hidden;
         }
         
-        /* إجبار الفيديو على ملء الشاشة تماماً والمحافظة على أبعاده */
+        /* قفل أبعاد الفيديو للأيفون والأندرويد غصب عنه */
         #wedding-video {
             width: 100%; height: 100%; object-fit: cover; pointer-events: auto;
         }
 
-        /* زر تخطي اختياري فوق الفيديو */
+        /* زر التخطي (Skip) الأنيق فوق يمين */
         .skip-video-btn {
-            position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5);
-            color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px;
+            position: absolute; top: 25px; right: 20px; background: rgba(0,0,0,0.6);
+            color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 8px 18px;
             border-radius: 20px; font-size: 12px; font-family: 'Cinzel', serif; z-index: 10000;
-            cursor: pointer;
+            cursor: pointer; letter-spacing: 1px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
         }
 
-        /* المحتوى الأساسي بعد الفيديو */
+        /* المحتوى الأساسي */
         #main-content { display: none; width: 100%; max-width: 100vw; }
         
         .hero-image-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
@@ -99,7 +100,6 @@
         .scroll-arrow { font-size: 20px; margin-top: 5px; animation: bounce 1.5s infinite; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
-        /* السيكشنز */
         .scroll-sections { padding: 40px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; }
         .section {
             width: 100%; max-width: 340px; text-align: center; margin-bottom: 50px; box-sizing: border-box;
@@ -116,7 +116,7 @@
         .countdown-number { font-family: 'Cinzel', serif; font-size: 16px; color: #fff; }
         .countdown-label { font-size: 8px; color: var(--accent-gold); text-transform: uppercase; }
 
-        /* النتيجة */
+        /* التقويم */
         .calendar-container { background: #fff; border-radius: 15px; padding: 15px; margin-top: 15px; border: 1px solid var(--glass-border); }
         .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; font-size: 11px; }
         .day-label { color: var(--accent-gold); font-size: 9px; font-weight: bold; }
@@ -131,12 +131,12 @@
 </head>
 <body>
 
-    <!-- الأوديو الخاص بالخلفية (بدون تشغيل تلقائي لمنع الحظر) -->
+    <!-- أوديو الخلفية (البستاني) جاهز ومحمل -->
     <audio id="bg-music" loop preload="auto">
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- شاشة الظرف المستقرة والقابلة للضغط -->
+    <!-- شاشة الظرف الملكي القابل للضغط -->
     <div id="intro-overlay">
         <div class="envelope-container" onclick="openEnvelopeAndPlayVideo()">
             <div class="envelope-text">
@@ -148,16 +148,16 @@
         <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--accent-gold); margin-top: 50px; letter-spacing: 2px;">Tap Envelope to Open</div>
     </div>
 
-    <!-- حاوية الفيديو المضمونة بنسبة 100% بتفاعل مستخدم حقيقي وبصوت جاهز -->
+    <!-- حاوية الفيديو المدعومة بجميع أكواد الأمان للأيفون (playsinline + muted) -->
     <div id="video-container">
         <button class="skip-video-btn" onclick="endVideoAndShowContent()">Skip ✕</button>
-        <video id="wedding-video" playsinline preload="auto">
+        <video id="wedding-video" playsinline webkit-playsinline muted preload="auto">
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
     </div>
 
-    <!-- المحتوى بعد انتهاء الفيديو مباشرة -->
+    <!-- محتوى الدعوة بعد التخطي أو انتهاء الفيديو -->
     <div id="main-content">
         <div class="hero-image-wrapper">
             <img src="8CFD7E05-28B6-48F9-913F-0FE96220A781.jpg" class="hero-image" alt="Wedding Hero">
@@ -169,7 +169,7 @@
         </div>
 
         <div class="scroll-sections">
-            <!-- العداد التنازلي -->
+            <!-- العداد -->
             <div class="section">
                 <div class="serif-subtitle">The Countdown</div>
                 <h2 class="serif-title" style="font-size: 16px;">Counting Down to Our Wedding</h2>
@@ -181,7 +181,7 @@
                 </div>
             </div>
 
-            <!-- التقويم -->
+            <!-- التقويم المظبوط على يوم 5 أغسطس -->
             <div class="section">
                 <div class="serif-subtitle">Save Our Date</div>
                 <h2 class="serif-title">August 2026</h2>
@@ -197,14 +197,14 @@
                 <p style="font-size: 13px; margin-top: 10px; color: var(--text-main);">Wednesday, August 5, 2026</p>
             </div>
 
-            <!-- مكان الفرح -->
+            <!-- موقع الفرح -->
             <div class="section">
                 <div class="serif-subtitle">The Venue</div>
                 <h1 class="serif-title">White Garden</h1>
                 <a href="https://maps.app.goo.gl/HYSrfff24ZMuZSDe6?g_st=iw" target="_blank" class="action-button">📍 View Location</a>
             </div>
 
-            <!-- فورم RSVP -->
+            <!-- تأكيد الحضور -->
             <div class="section">
                 <div class="serif-subtitle">RSVP</div>
                 <h1 class="serif-title">Are You Coming?</h1>
@@ -213,7 +213,7 @@
         </div>
     </div>
 
-    <!-- أوفرلاي فوروم الـ RSVP -->
+    <!-- نافذة تأكيد الحضور -->
     <div id="rsvp-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(247,238,227,0.98); z-index: 10000; justify-content: center; align-items: center;">
         <div style="width: 90%; max-width: 350px; background: #fff; padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; position: relative; box-sizing: border-box;">
             <button onclick="closeRSVP()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px;">✕</button>
@@ -228,7 +228,7 @@
     </div>
 
     <script>
-        // قفل كامل لقرص الشاشة والزووم
+        // قفل كامل لمنع قرص الشاشة وعمل زووم على الموبايل
         document.addEventListener('touchstart', function (e) {
             if (e.touches.length > 1) e.preventDefault();
         }, { passive: false });
@@ -247,14 +247,17 @@
         const bgMusic = document.getElementById('bg-music');
 
         function openEnvelopeAndPlayVideo() {
-            // إظهار حاوية الفيديو فوراً وإخفاء غطاء الظرف لمنع التهنيج
+            // 1. فتح وإظهار شاشة الفيديو فوراً وإخفاء الأوفرلاي
             introOverlay.style.display = 'none';
             videoContainer.style.display = 'flex';
             
-            // تشغيل الفيديو بصوت طبيعي وبدء التفاعل الصريح مع المتصفح
-            weddingVideo.muted = false;
+            // 2. تشغيل الأغنية الأساسية فوراً بصوت عالي (المتصفح هيوافق لأنها نتيجة ضغطة مستخدم حقيقية)
+            bgMusic.play().catch(e => console.log("Music basic block:", e));
+
+            // 3. إجبار تشغيل الفيديو صامت (مضمون 100% على الآيفون بفضل الخصائص المضافة)
+            weddingVideo.muted = true;
             weddingVideo.play().catch(err => {
-                console.log("Video fail, auto skip to content:", err);
+                console.log("Video strict failure fallback:", err);
                 endVideoAndShowContent();
             });
         }
@@ -264,7 +267,7 @@
             endVideoAndShowContent();
         };
 
-        // عند الضغط على كادر الفيديو نفسه للتخطي
+        // عند الضغط المباشر على الفيديو للتخطي السريع
         weddingVideo.addEventListener('click', function() {
             endVideoAndShowContent();
         });
@@ -274,8 +277,8 @@
             videoContainer.style.display = 'none';
             mainContent.style.display = 'block';
             
-            // تشغيل أغنية البستاني في الخلفية بنجاح الآن بعد إنهاء الفيديو
-            bgMusic.play().catch(e => console.log("Music blocked:", e));
+            // التأكيد على استمرار تشغيل الموسيقى بعد انتهاء الفيديو
+            bgMusic.play().catch(e => console.log("Music assurance block:", e));
         }
 
         // العداد الزمني لـ 5 أغسطس 2026
@@ -298,7 +301,7 @@
         function openRSVP() { document.getElementById('rsvp-overlay').style.display = 'flex'; }
         function closeRSVP() { document.getElementById('rsvp-overlay').style.display = 'none'; }
 
-        // ربط الجوجل شيت
+        // ربط الجوجل شيت بدون أخطاء
         const rsvpForm = document.getElementById('sheet-form');
         const statusMsg = document.getElementById('status-msg');
         const scriptUrl = "https://script.google.com/macros/s/AKfycbxIwBHRdP73GweUORCi-5VcgBoRlbKmGPKojU29dg7D5wpyMCn97diZl7m9jJsw8pErkw/exec";
