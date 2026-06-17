@@ -104,7 +104,6 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* حاوية الفيديو: تسطير مطلق وسنتر بالملي في نص الشاشة */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -119,7 +118,6 @@
             opacity: 1;
         }
 
-        /* تظبيط الكاميرا والأبعاد في السنتر */
         #wedding-video {
             width: 100%;
             height: 100%;
@@ -425,7 +423,8 @@
     </div>
 
     <div id="video-container">
-        <video id="wedding-video" playsinline preload="auto" autoplay muted loop>
+        <!-- تم مسح خاصية الـ loop تماماً عشان يشتغل مرة واحدة بس -->
+        <video id="wedding-video" playsinline preload="auto" autoplay muted>
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
@@ -540,14 +539,15 @@
                         bypassVideo();
                     });
                 }
-            }, 150); // تسريع النقلة الأولى لأقصى درجة
+            }, 150);
         }
 
+        // لما الفيديو يخلص لوحده ينقل فوراً بدون تكرار
         weddingVideo.onended = function() {
             bypassVideo();
         };
 
-        // النقلة الفورية بمجرد اللمس لمنع أي لاج
+        // لو حد استعجل ولمس الشاشة ينقل برضه
         videoContainer.addEventListener('click', function() {
             bypassVideo();
         });
@@ -559,7 +559,7 @@
             setTimeout(() => {
                 videoContainer.style.display = 'none';
                 handleReveal();
-            }, 300); // إخفاء الحاوية تماماً في جزء من الثانية عشان النقلة تطلع مية واحدة
+            }, 300);
         }
 
         window.addEventListener('scroll', handleReveal);
