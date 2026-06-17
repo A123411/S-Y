@@ -66,6 +66,7 @@
             border-radius: 30px;
             box-shadow: 0 10px 25px rgba(61, 37, 25, 0.03);
             animation: pulseGlow 2s infinite;
+            transition: all 0.3s ease;
         }
 
         @keyframes pulseGlow {
@@ -74,7 +75,6 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
-        /* تعديل الحاوية هنا لتجبر المتصفح على التحميل المسبق بالخلفية دون اختفاء */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -471,13 +471,31 @@
         const mainContent = document.getElementById('main-content');
         const bgMusic = document.getElementById('bg-music');
 
-        // إجبار المتصفح على بدء تحميل الداتا بمجرد فتح الصفحة في الخلفية
         window.addEventListener('DOMContentLoaded', () => {
             weddingVideo.load();
         });
 
         function openEnvelope() {
-            // تحويل الـ Opacity والـ Z-Index فوراً لعرض الفيديو بدون أي جليتش تحميل
+            const btn = document.querySelector('.envelope-btn');
+            
+            // تحقق إذا كان بافر الفيديو جاهزاً للتشغيل الفوري بدون تقطيع
+            if (weddingVideo.readyState >= 3) {
+                executeOpen();
+            } else {
+                // تجميل الزر وحظر الضغط المتكرر أثناء التحميل
+                btn.innerText = "✉️ Loading Video...";
+                btn.style.opacity = "0.7";
+                btn.style.pointerEvents = "none";
+                
+                // الفتح التلقائي بمجرد انتهاء التحميل الكافي
+                weddingVideo.addEventListener('canplaythrough', function onCanPlay() {
+                    executeOpen();
+                    weddingVideo.removeEventListener('canplaythrough', onCanPlay);
+                });
+            }
+        }
+
+        function executeOpen() {
             videoContainer.style.zIndex = '988';
             videoContainer.style.opacity = '1';
             introOverlay.style.opacity = '0';
