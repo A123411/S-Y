@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,6 @@
             scroll-behavior: smooth;
         }
 
-        /* تأثير الشموع والنجوم المتساقطة في الخلفية (أجواء الفرح) */
         .sparkle {
             position: fixed;
             background: radial-gradient(circle, rgba(255,223,135,1) 0%, rgba(178,147,101,0) 70%);
@@ -67,7 +66,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
         .intro-deco {
@@ -77,7 +76,6 @@
             margin-bottom: 20px;
             letter-spacing: 6px;
             animation: fadeInOut 2.5s infinite;
-            text-center: center;
         }
 
         @keyframes fadeInOut {
@@ -106,6 +104,7 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
+        /* حاوية الفيديو: تسطير مطلق وسنتر بالملي في نص الشاشة */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -116,14 +115,16 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.4s ease-in-out;
             opacity: 1;
         }
 
+        /* تظبيط الكاميرا والأبعاد في السنتر */
         #wedding-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
         }
 
         #main-content {
@@ -149,6 +150,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             display: block;
         }
 
@@ -220,7 +222,6 @@
             overflow-x: hidden;
         }
 
-        /* كروت فخمة مزخرفة */
         .section {
             width: 100%;
             max-width: 340px;
@@ -409,7 +410,6 @@
 </head>
 <body>
 
-    <!-- خلفية الشموع والنجف اللامع -->
     <div class="sparkle" style="left: 15%; animation-delay: 0s; width: 8px; height: 8px;"></div>
     <div class="sparkle" style="left: 40%; animation-delay: 2s; width: 12px; height: 12px;"></div>
     <div class="sparkle" style="left: 70%; animation-delay: 4s; width: 6px; height: 6px;"></div>
@@ -425,7 +425,7 @@
     </div>
 
     <div id="video-container">
-        <video id="wedding-video" playsinline preload="auto" muted>
+        <video id="wedding-video" playsinline preload="auto" autoplay muted loop>
             <source src="AA 2.mov" type="video/quicktime">
             <source src="AA 2.mov" type="video/mp4">
         </video>
@@ -529,21 +529,28 @@
                 introOverlay.style.display = 'none';
                 videoContainer.style.display = 'flex';
                 
-                bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
-                weddingVideo.play();
+                bgMusic.play().catch(error => console.log("Audio play blocked:", error));
                 
-                // حماية إضافية للأندرويد: لو الفيديو علق أو ما اشتغلش لأي سبب بعد 4 ثواني يتخطاه فوراً عشان الكروت تظهر
-                setTimeout(() => {
-                    if (videoContainer.style.display !== 'none' && weddingVideo.paused) {
+                weddingVideo.muted = true;
+                const playPromise = weddingVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Video play failed, bypassing:", error);
                         bypassVideo();
-                    }
-                }, 4000);
-            }, 400);
+                    });
+                }
+            }, 150); // تسريع النقلة الأولى لأقصى درجة
         }
 
         weddingVideo.onended = function() {
             bypassVideo();
         };
+
+        // النقلة الفورية بمجرد اللمس لمنع أي لاج
+        videoContainer.addEventListener('click', function() {
+            bypassVideo();
+        });
 
         function bypassVideo() {
             mainContent.style.display = 'block';
@@ -552,7 +559,7 @@
             setTimeout(() => {
                 videoContainer.style.display = 'none';
                 handleReveal();
-            }, 800);
+            }, 300); // إخفاء الحاوية تماماً في جزء من الثانية عشان النقلة تطلع مية واحدة
         }
 
         window.addEventListener('scroll', handleReveal);
