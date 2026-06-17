@@ -50,6 +50,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: opacity 0.4s ease;
         }
 
         .envelope-btn {
@@ -73,18 +74,19 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
+        /* تعديل الحاوية هنا لتجبر المتصفح على التحميل المسبق بالخلفية دون اختفاء */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
             width: 100vw; height: 100vh;
             background: #000000;
-            z-index: 988;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             transition: opacity 0.6s ease;
-            opacity: 1;
+            opacity: 0;
+            z-index: -1;
         }
 
         #wedding-video {
@@ -469,13 +471,23 @@
         const mainContent = document.getElementById('main-content');
         const bgMusic = document.getElementById('bg-music');
 
+        // إجبار المتصفح على بدء تحميل الداتا بمجرد فتح الصفحة في الخلفية
+        window.addEventListener('DOMContentLoaded', () => {
+            weddingVideo.load();
+        });
+
         function openEnvelope() {
-            // تشغيل فوري بدون أي تأخير سينمائي
-            weddingVideo.play().catch(err => console.log("Video fail:", err));
-            bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
+            // تحويل الـ Opacity والـ Z-Index فوراً لعرض الفيديو بدون أي جليتش تحميل
+            videoContainer.style.zIndex = '988';
+            videoContainer.style.opacity = '1';
+            introOverlay.style.opacity = '0';
             
-            introOverlay.style.display = 'none';
-            videoContainer.style.display = 'flex';
+            weddingVideo.play().catch(err => console.log("Video fail:", err));
+            bgMusic.play().catch(error => console.log("Audio play blocked:", error));
+            
+            setTimeout(() => {
+                introOverlay.style.display = 'none';
+            }, 400);
         }
 
         weddingVideo.onended = function() {
@@ -489,6 +501,7 @@
             
             setTimeout(() => {
                 videoContainer.style.display = 'none';
+                videoContainer.style.zIndex = '-1';
                 document.documentElement.style.overflowY = 'auto';
                 document.body.style.overflowY = 'auto';
                 handleReveal();
