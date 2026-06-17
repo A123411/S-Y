@@ -1,20 +1,20 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Saif & Yara Wedding Invitation</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Montserrat:wght@300;400;500;600&display=swap');
 
         :root {
             --bg-color: #fbf7f2;
             --primary-dark: #3d2519;
             --accent-gold: #b29365;
             --text-main: #543d31;
-            --glass-bg: rgba(255, 255, 255, 0.82);
-            --glass-border: rgba(178, 147, 101, 0.25);
-            --luxury-glow: 0 15px 35px rgba(178, 147, 101, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(178, 147, 101, 0.2);
+            --luxury-glow: 0 15px 35px rgba(178, 147, 101, 0.1);
         }
 
         html, body {
@@ -31,12 +31,6 @@
             scroll-behavior: smooth;
         }
 
-        /* حل مشكلة قفل الاسكرول على الأندرويد */
-        body.is-locked {
-            overflow-y: hidden !important;
-            height: 100vh !important;
-        }
-
         /* تأثير الشموع والنجوم المتساقطة في الخلفية (أجواء الفرح) */
         .sparkle {
             position: fixed;
@@ -49,14 +43,14 @@
 
         @keyframes floatSparkle {
             0% { transform: translateY(105vh) translateX(0) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; }
+            50% { opacity: 0.6; }
             100% { transform: translateY(-5vh) translateX(50px) scale(1.2); opacity: 0; }
         }
 
         .reveal-element {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .reveal-element.active {
@@ -73,43 +67,42 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
-        /* زغارف هندسية ملكية لزر الدخول */
         .intro-deco {
             font-family: 'Cinzel', serif;
-            font-size: 24px;
+            font-size: 20px;
             color: var(--accent-gold);
             margin-bottom: 20px;
             letter-spacing: 6px;
             animation: fadeInOut 2.5s infinite;
+            text-center: center;
         }
 
         @keyframes fadeInOut {
-            0%, 100% { opacity: 0.4; transform: scale(0.98); }
+            0%, 100% { opacity: 0.5; transform: scale(0.98); }
             50% { opacity: 1; transform: scale(1.02); }
         }
 
         .envelope-btn {
             background: var(--primary-dark);
-            border: 2px solid var(--accent-gold);
-            padding: 18px 36px;
+            border: 1.5px solid var(--accent-gold);
+            padding: 16px 32px;
             font-family: 'Cinzel', serif;
             color: #ffffff;
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 3px;
             cursor: pointer;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(61, 37, 25, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(61, 37, 25, 0.1);
             animation: pulseGlow 2s infinite;
-            transition: all 0.3s;
         }
 
         @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.5); }
-            70% { transform: scale(1.04); box-shadow: 0 0 0 15px rgba(178, 147, 101, 0); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(178, 147, 101, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
         }
 
@@ -157,14 +150,12 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0.9;
         }
 
-        /* ستارة وتأثير إضاءة النجف فوق الصورة الكبيرة */
         .hero-overlay-glow {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(61,37,25,0.3) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%);
+            background: linear-gradient(to bottom, rgba(61,37,25,0.2) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
             pointer-events: none;
         }
 
@@ -185,11 +176,11 @@
 
         .scroll-initials {
             font-family: 'Cinzel', serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #ffffff;
-            letter-spacing: 6px;
-            text-shadow: 0 2px 15px rgba(178,147,101,0.8);
+            letter-spacing: 4px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
             margin-bottom: 2px;
         }
 
@@ -205,23 +196,23 @@
         }
 
         .scroll-arrow {
-            font-size: 22px;
-            color: var(--accent-gold);
+            font-size: 20px;
+            color: #ffffff;
             text-shadow: 0 2px 8px rgba(0,0,0,0.7);
             animation: bounceArrow 1.8s infinite ease-in-out;
             margin-top: 2px;
         }
 
         @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0); opacity: 0.6; }
-            50% { transform: translateY(8px); opacity: 1; }
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(6px); opacity: 1; }
         }
 
         .scroll-sections {
             width: 100%;
             max-width: 100vw;
             box-sizing: border-box;
-            padding: 80px 24px 140px 24px;
+            padding: 60px 20px 120px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -229,46 +220,37 @@
             overflow-x: hidden;
         }
 
-        /* كروت الدعوة الفخمة المزغرفة بالذهب والنجف */
+        /* كروت فخمة مزخرفة */
         .section {
             width: 100%;
-            max-width: 360px;
+            max-width: 340px;
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 75px;
             box-sizing: border-box;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 40px 24px;
-            border-radius: 30px;
+            padding: 35px 20px;
+            border-radius: 24px;
             box-shadow: var(--luxury-glow);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             position: relative;
         }
 
-        /* زوايا مزغرفة فاخرة لكل كارت */
-        .section::before {
+        .section::before, .section::after {
             content: "✨";
             position: absolute;
-            top: 12px;
-            left: 12px;
+            top: 10px;
             font-size: 10px;
-            opacity: 0.5;
+            opacity: 0.4;
             color: var(--accent-gold);
         }
-        .section::after {
-            content: "✨";
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 10px;
-            opacity: 0.5;
-            color: var(--accent-gold);
-        }
+        .section::before { left: 12px; }
+        .section::after { right: 12px; }
 
         .serif-subtitle {
             font-family: 'Cinzel', serif;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             color: var(--accent-gold);
@@ -278,18 +260,18 @@
 
         .serif-title {
             font-family: 'Cinzel', serif;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--primary-dark);
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             margin: 0 0 15px 0;
         }
 
         .countdown-grid {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin: 25px auto 0 auto;
             width: 100%;
         }
@@ -297,114 +279,111 @@
         .countdown-box {
             background: var(--primary-dark);
             border: 1px solid var(--accent-gold);
-            border-radius: 16px;
-            padding: 14px 0;
+            border-radius: 12px;
+            padding: 12px 0;
             flex: 1;
             min-width: 0;
-            box-shadow: 0 8px 20px rgba(61, 37, 25, 0.1);
+            box-shadow: 0 8px 25px rgba(61, 37, 25, 0.02);
         }
 
         .countdown-number {
             font-family: 'Cinzel', serif;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .countdown-label {
             font-size: 9px;
             text-transform: uppercase;
             color: var(--accent-gold);
-            letter-spacing: 1px;
-            margin-top: 4px;
-            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+            font-weight: 500;
         }
 
         .calendar-container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.8);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 24px 16px;
+            padding: 20px 15px;
             width: 100%;
             margin: 20px auto 0 auto;
-            box-shadow: 0 5px 15px rgba(178,147,101,0.05);
             box-sizing: border-box;
         }
 
         .calendar-month-year {
             font-family: 'Cinzel', serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--primary-dark);
-            letter-spacing: 2px;
-            margin-bottom: 16px;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
         .calendar-days-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px 4px;
-            font-size: 12px;
+            gap: 8px 4px;
+            font-size: 11px;
         }
 
         .day-label {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--accent-gold);
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .calendar-day {
-            height: 32px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-main);
-            font-weight: 500;
         }
 
         .calendar-day.selected-wedding-day {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #543d31 100%);
+            background-color: var(--primary-dark);
             color: #ffffff;
             border-radius: 50%;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(61, 37, 25, 0.4);
+            box-shadow: 0 4px 10px rgba(61, 37, 25, 0.25);
             animation: pulseDay 2s infinite;
             border: 1px solid var(--accent-gold);
         }
 
         @keyframes pulseDay {
-            0% { box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.5); }
-            70% { box-shadow: 0 0 0 8px rgba(178, 147, 101, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(61, 37, 25, 0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(61, 37, 25, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(61, 37, 25, 0); }
         }
 
         .body-text {
-            font-size: 14px;
-            line-height: 1.8;
+            font-size: 13.5px;
+            line-height: 1.7;
             color: var(--text-main);
             max-width: 300px;
             margin: 0 auto;
         }
 
         .luxury-divider {
-            width: 80px;
+            width: 60px;
             height: 1px;
-            background: linear-gradient(to right, transparent, var(--accent-gold), transparent);
-            margin: 25px auto;
+            background: var(--accent-gold);
+            margin: 20px auto;
+            opacity: 0.5;
             position: relative;
         }
-        
         .luxury-divider::after {
             content: "💍";
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--bg-color);
-            padding: 0 6px;
+            background: #ffffff;
+            padding: 0 4px;
             font-size: 10px;
         }
 
@@ -412,34 +391,29 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #24140c 100%);
+            background: var(--primary-dark);
             color: #ffffff;
             text-decoration: none;
-            padding: 16px 36px;
-            border-radius: 50px;
-            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 500;
             font-size: 11px;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(61, 37, 25, 0.2);
-            margin-top: 15px;
-            border: 1px solid var(--accent-gold);
+            box-shadow: 0 8px 20px rgba(61, 37, 25, 0.12);
+            margin-top: 10px;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .action-button:active {
-            transform: scale(0.97);
         }
     </style>
 </head>
-<body class="is-locked">
+<body>
 
-    <div class="sparkle" style="left: 10%; animation-delay: 0s; width: 8px; height: 8px;"></div>
-    <div class="sparkle" style="left: 30%; animation-delay: 2s; width: 12px; height: 12px;"></div>
-    <div class="sparkle" style="left: 55%; animation-delay: 4s; width: 6px; height: 6px;"></div>
-    <div class="sparkle" style="left: 80%; animation-delay: 1s; width: 14px; height: 14px;"></div>
-    <div class="sparkle" style="left: 90%; animation-delay: 5s; width: 10px; height: 10px;"></div>
+    <!-- خلفية الشموع والنجف اللامع -->
+    <div class="sparkle" style="left: 15%; animation-delay: 0s; width: 8px; height: 8px;"></div>
+    <div class="sparkle" style="left: 40%; animation-delay: 2s; width: 12px; height: 12px;"></div>
+    <div class="sparkle" style="left: 70%; animation-delay: 4s; width: 6px; height: 6px;"></div>
+    <div class="sparkle" style="left: 85%; animation-delay: 1s; width: 10px; height: 10px;"></div>
 
     <audio id="bg-music" loop>
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
@@ -498,7 +472,7 @@
                     </div>
                 </div>
                 <div class="luxury-divider"></div>
-                <p class="body-text" style="font-weight: 600; color: var(--primary-dark);">Wednesday, August 5, 2026</p>
+                <p class="body-text" style="font-weight: 500;">Wednesday, August 5, 2026</p>
             </div>
 
             <div class="section reveal-element">
@@ -519,25 +493,25 @@
     </div>
 
     <div id="rsvp-form-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(247,238,227,0.98); z-index: 1000; justify-content: center; align-items: center;">
-        <div style="width: 90%; max-width: 380px; padding: 30px 25px; background: #ffffff; border: 2px solid var(--accent-gold); border-radius: 30px; box-shadow: 0 20px 50px rgba(61, 37, 25, 0.15); position: relative; box-sizing: border-box; text-align: center;">
-            <button onclick="closeRSVPForm()" style="position: absolute; top: 18px; right: 22px; background: none; border: none; font-size: 22px; color: var(--primary-dark); cursor: pointer; font-weight: bold;">✕</button>
+        <div style="width: 90%; max-width: 380px; padding: 25px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: 0 10px 30px rgba(61, 37, 25, 0.05); position: relative; box-sizing: border-box; text-align: center;">
+            <button onclick="closeRSVPForm()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 20px; color: var(--primary-dark); cursor: pointer;">✕</button>
             
             <div class="serif-subtitle" style="margin-top: 10px;">Attendance Form</div>
             <div class="luxury-divider"></div>
             
             <form id="g-sheet-form">
                 <div style="margin-bottom: 20px; text-align: left;">
-                    <label for="name" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 8px; letter-spacing: 0.5px;">Your Name</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 14px; border: 1px solid var(--accent-gold); border-radius: 14px; background: #fdfcf9; font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box; color: var(--primary-dark);">
+                    <label for="name" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 6px;">Your Name</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(255,255,255,0.7); font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box;">
                 </div>
                 
                 <div style="margin-bottom: 25px; text-align: left;">
-                    <label for="totalGuests" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 8px; letter-spacing: 0.5px;">Total Number of Attendees (1-9)</label>
-                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 14px; border: 1px solid var(--accent-gold); border-radius: 14px; background: #fdfcf9; font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box; color: var(--primary-dark);">
+                    <label for="totalGuests" style="font-size: 13px; font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 6px;">Total Number of Attendees (1-9)</label>
+                    <input type="number" id="totalGuests" name="totalGuests" min="1" max="9" required style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(255,255,255,0.7); font-family: 'Montserrat', sans-serif; font-size: 14px; box-sizing: border-box;">
                 </div>
                 
-                <button type="submit" class="action-button" style="width: 100%; margin-top: 0; padding: 16px;">Confirm Attendance</button>
-                <div id="form-status" style="font-size: 14px; margin-top: 15px; color: var(--accent-gold); display: none; font-weight: 600;">Sending...</div>
+                <button type="submit" class="action-button" style="width: 100%; margin-top: 0;">Confirm Attendance</button>
+                <div id="form-status" style="font-size: 13px; margin-top: 15px; color: var(--accent-gold); display: none;">Sending...</div>
             </form>
         </div>
     </div>
@@ -558,12 +532,12 @@
                 bgMusic.play().catch(error => console.log("Audio play blocked by browser:", error));
                 weddingVideo.play();
                 
-                // تشغيل تلقائي في حالة الأندرويد أو المتصفحات الصارمة لو علق الفيديو
+                // حماية إضافية للأندرويد: لو الفيديو علق أو ما اشتغلش لأي سبب بعد 4 ثواني يتخطاه فوراً عشان الكروت تظهر
                 setTimeout(() => {
-                    if (weddingVideo.paused) {
+                    if (videoContainer.style.display !== 'none' && weddingVideo.paused) {
                         bypassVideo();
                     }
-                }, 5000);
+                }, 4000);
             }, 400);
         }
 
@@ -577,7 +551,6 @@
             
             setTimeout(() => {
                 videoContainer.style.display = 'none';
-                document.body.classList.remove('is-locked');
                 handleReveal();
             }, 800);
         }
@@ -621,12 +594,10 @@
 
         function openRSVPForm() {
             document.getElementById('rsvp-form-overlay').style.display = 'flex';
-            document.body.classList.add('is-locked');
         }
 
         function closeRSVPForm() {
             document.getElementById('rsvp-form-overlay').style.display = 'none';
-            document.body.classList.remove('is-locked');
         }
 
         const form = document.getElementById('g-sheet-form');
@@ -637,7 +608,7 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
             formStatus.style.display = 'block';
-            formStatus.innerText = 'Sending... ✨';
+            formStatus.innerText = 'Sending...';
             formStatus.style.color = 'var(--accent-gold)';
 
             const formData = new FormData(form);
