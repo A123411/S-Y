@@ -14,6 +14,8 @@
             --text-main: #543d31;
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(178, 147, 101, 0.15);
+            --envelope-bg: #f4eee5;
+            --envelope-shadow: rgba(61, 37, 25, 0.15);
         }
 
         html, body {
@@ -42,6 +44,7 @@
             transform: translateY(0);
         }
 
+        /* --- تصميم الظرف الاحترافي --- */
         #intro-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -50,31 +53,130 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.6s ease;
+            perspective: 1000px; /* ليعطي عمق ثلاثي الأبعاد عند فتح الغطاء */
         }
 
-        .envelope-btn {
-            background: transparent;
-            border: 1.5px solid var(--accent-gold);
-            padding: 16px 32px;
-            font-family: 'Cinzel', serif;
-            color: var(--primary-dark);
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 3px;
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background-color: var(--envelope-bg);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 20px 40px var(--envelope-shadow);
             cursor: pointer;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(61, 37, 25, 0.03);
-            animation: pulseGlow 2s infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        /* غطاء الظرف المثلثي */
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #e2dacb;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3;
+        }
+
+        /* الجوانب الداخلية للظرف لحبك التصميم */
+        .envelope-pockets {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .envelope-pockets::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 165px solid #eae2d3;
+            border-top: 115px solid transparent;
+        }
+
+        .envelope-pockets::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 0; height: 0;
+            border-right: 165px solid #eae2d3;
+            border-top: 115px solid transparent;
+        }
+
+        /* الكارت اللي بيطلع من جوه الظرف */
+        .envelope-card {
+            position: absolute;
+            top: 10px; left: 15px;
+            width: 290px;
+            height: 190px;
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            z-index: 1;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid rgba(178, 147, 101, 0.2);
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            background: var(--primary-dark);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(61,37,25,0.2);
             transition: all 0.3s ease;
         }
 
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0.3); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(178, 147, 101, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(178, 147, 101, 0); }
+        /* حالة فتح الظرف بالأنيميشن */
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
         }
 
+        .envelope-wrapper.open .envelope-card {
+            transform: translateY(-100px);
+            z-index: 4;
+        }
+
+        /* --- باقي ستايل الصفحة كما هو --- */
         #video-container {
             position: fixed;
             top: 0; left: 0; 
@@ -368,8 +470,17 @@
         <source src="WhatsApp Video 1447-12-29 at 05.04.29.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- شاشة الظرف الحقيقي البديلة -->
     <div id="intro-overlay">
-        <button class="envelope-btn" onclick="openEnvelope()">✉️ Open Invitation</button>
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-card">
+                <div class="card-title">Saif & Yara</div>
+                <div class="card-subtitle">Wedding Invitation</div>
+                <button class="card-btn" id="main-envelope-btn">Click to Open</button>
+            </div>
+            <div class="envelope-pockets"></div>
+        </div>
     </div>
 
     <div id="video-container">
@@ -476,20 +587,22 @@
         });
 
         function openEnvelope() {
-            const btn = document.querySelector('.envelope-btn');
+            const envelope = document.querySelector('.envelope-wrapper');
+            const btn = document.getElementById('main-envelope-btn');
             
-            // تحقق إذا كان بافر الفيديو جاهزاً للتشغيل الفوري بدون تقطيع
+            // إضافة كلاس الفتح لتشغيل أنيميشن الـ CSS (الغطاء والكارت)
+            envelope.classList.add('open');
+            
+            // فحص جاهزية الفيديو
             if (weddingVideo.readyState >= 3) {
-                executeOpen();
+                // لو جاهز، استنى الأنميشن يخلص (نصف ثانية) وافتح فوراً
+                setTimeout(executeOpen, 600);
             } else {
-                // تجميل الزر وحظر الضغط المتكرر أثناء التحميل
-                btn.innerText = "✉️ Loading Video...";
-                btn.style.opacity = "0.7";
-                btn.style.pointerEvents = "none";
+                // لو مش جاهز، غير الكلمة في الكارت عشان المستخدم يفهم إنه جاري التحميل
+                btn.innerText = "Loading Video...";
                 
-                // الفتح التلقائي بمجرد انتهاء التحميل الكافي
                 weddingVideo.addEventListener('canplaythrough', function onCanPlay() {
-                    executeOpen();
+                    setTimeout(executeOpen, 400);
                     weddingVideo.removeEventListener('canplaythrough', onCanPlay);
                 });
             }
@@ -505,7 +618,7 @@
             
             setTimeout(() => {
                 introOverlay.style.display = 'none';
-            }, 400);
+            }, 600);
         }
 
         weddingVideo.onended = function() {
